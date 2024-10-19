@@ -1,0 +1,3 @@
+/home/pablo/repo-Roboticy3/a0/cmake_base_project/CMakeFiles/cmake_base_project.dir
+/home/pablo/repo-Roboticy3/a0/cmake_base_project/CMakeFiles/edit_cache.dir
+/home/pablo/repo-Roboticy3/a0/cmake_base_project/CMakeFiles/rebuild_cache.dir
