@@ -1,5 +1,7 @@
 #!/bin/bash -x
 
+#script stolen from my algorithms class
+
 #NOTE: this BASH script compiles/runs the code through the command line, rather than through CLion or any other IDE
 
 #create the build directory

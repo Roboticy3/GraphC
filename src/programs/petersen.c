@@ -1,12 +1,14 @@
 #include <stdio.h>
+#include <stddef.h>
 #include <combinations/choose.h>
+#include <graph/graph.h>
 
 //stack-allocate a Petersen graph.
 
-#define PETERSON_K 6
-#define PETERSON_N 14
-#define N_CHOOSE_K 3003
-#define NmK_CHOOSE_K 28
+#define PETERSON_K 2
+#define PETERSON_N 5
+#define N_CHOOSE_K 10
+#define NmK_CHOOSE_K 3
 #define EDGES N_CHOOSE_K * NmK_CHOOSE_K * 2
 
 int is_petersen_neighbor(size_t* u, size_t len_u, size_t* v, size_t len_v) {
@@ -17,18 +19,6 @@ int is_petersen_neighbor(size_t* u, size_t len_u, size_t* v, size_t len_v) {
   }
 
   return 1;
-}
-
-void print_graph(size_t* neighborhoods, size_t vertex_count, size_t* edges) {
-  for (size_t i = 0; i < vertex_count; i++) {
-    size_t n = neighborhoods[i];
-    printf("[%ld]", i);
-    while (n != -1) {
-      printf(" -> %ld", edges[n]);
-      n = edges[n + 1];
-    }
-    printf("\n");
-  }
 }
 
 int petersen() {
@@ -56,10 +46,7 @@ int petersen() {
       if (is_petersen_neighbor(vertices[i], PETERSON_K, vertices[j], PETERSON_K)) {
 
         //if there's an edge, make it the first edge in i's chain, pushing the rest down
-        size_t start = neighborhoods[i];
-        neighborhoods[i] = k;
-        edges[k] = j;
-        edges[k + 1] = start;
+        add_neighbor(&(neighborhoods[i]), edges, j, k);
 
         k += 2;
 

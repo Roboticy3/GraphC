@@ -23,4 +23,5 @@ CMakeFiles/GraphC.dir/src/programs/petersen.c.o: \
  /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
  /usr/include/x86_64-linux-gnu/bits/floatn.h \
  /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
- /home/pablo/lang-experiments/GraphC/include/combinations/choose.h
+ /home/pablo/lang-experiments/GraphC/include/combinations/choose.h \
+ /home/pablo/lang-experiments/GraphC/include/graph/graph.h

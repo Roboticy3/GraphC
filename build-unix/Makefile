@@ -153,6 +153,30 @@ src/combinations/choose.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/GraphC.dir/build.make CMakeFiles/GraphC.dir/src/combinations/choose.c.s
 .PHONY : src/combinations/choose.c.s
 
+src/graph/graph.o: src/graph/graph.c.o
+.PHONY : src/graph/graph.o
+
+# target to build an object file
+src/graph/graph.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GraphC.dir/build.make CMakeFiles/GraphC.dir/src/graph/graph.c.o
+.PHONY : src/graph/graph.c.o
+
+src/graph/graph.i: src/graph/graph.c.i
+.PHONY : src/graph/graph.i
+
+# target to preprocess a source file
+src/graph/graph.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GraphC.dir/build.make CMakeFiles/GraphC.dir/src/graph/graph.c.i
+.PHONY : src/graph/graph.c.i
+
+src/graph/graph.s: src/graph/graph.c.s
+.PHONY : src/graph/graph.s
+
+# target to generate assembly for a file
+src/graph/graph.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GraphC.dir/build.make CMakeFiles/GraphC.dir/src/graph/graph.c.s
+.PHONY : src/graph/graph.c.s
+
 src/main.o: src/main.c.o
 .PHONY : src/main.o
 
@@ -176,6 +200,30 @@ src/main.s: src/main.c.s
 src/main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/GraphC.dir/build.make CMakeFiles/GraphC.dir/src/main.c.s
 .PHONY : src/main.c.s
+
+src/programs/maxmaching.o: src/programs/maxmaching.c.o
+.PHONY : src/programs/maxmaching.o
+
+# target to build an object file
+src/programs/maxmaching.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GraphC.dir/build.make CMakeFiles/GraphC.dir/src/programs/maxmaching.c.o
+.PHONY : src/programs/maxmaching.c.o
+
+src/programs/maxmaching.i: src/programs/maxmaching.c.i
+.PHONY : src/programs/maxmaching.i
+
+# target to preprocess a source file
+src/programs/maxmaching.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GraphC.dir/build.make CMakeFiles/GraphC.dir/src/programs/maxmaching.c.i
+.PHONY : src/programs/maxmaching.c.i
+
+src/programs/maxmaching.s: src/programs/maxmaching.c.s
+.PHONY : src/programs/maxmaching.s
+
+# target to generate assembly for a file
+src/programs/maxmaching.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GraphC.dir/build.make CMakeFiles/GraphC.dir/src/programs/maxmaching.c.s
+.PHONY : src/programs/maxmaching.c.s
 
 src/programs/petersen.o: src/programs/petersen.c.o
 .PHONY : src/programs/petersen.o
@@ -213,9 +261,15 @@ help:
 	@echo "... src/combinations/choose.o"
 	@echo "... src/combinations/choose.i"
 	@echo "... src/combinations/choose.s"
+	@echo "... src/graph/graph.o"
+	@echo "... src/graph/graph.i"
+	@echo "... src/graph/graph.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/programs/maxmaching.o"
+	@echo "... src/programs/maxmaching.i"
+	@echo "... src/programs/maxmaching.s"
 	@echo "... src/programs/petersen.o"
 	@echo "... src/programs/petersen.i"
 	@echo "... src/programs/petersen.s"

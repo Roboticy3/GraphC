@@ -9,7 +9,9 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/pablo/lang-experiments/GraphC/src/combinations/choose.c" "CMakeFiles/GraphC.dir/src/combinations/choose.c.o" "gcc" "CMakeFiles/GraphC.dir/src/combinations/choose.c.o.d"
+  "/home/pablo/lang-experiments/GraphC/src/graph/graph.c" "CMakeFiles/GraphC.dir/src/graph/graph.c.o" "gcc" "CMakeFiles/GraphC.dir/src/graph/graph.c.o.d"
   "/home/pablo/lang-experiments/GraphC/src/main.c" "CMakeFiles/GraphC.dir/src/main.c.o" "gcc" "CMakeFiles/GraphC.dir/src/main.c.o.d"
+  "/home/pablo/lang-experiments/GraphC/src/programs/maxmaching.c" "CMakeFiles/GraphC.dir/src/programs/maxmaching.c.o" "gcc" "CMakeFiles/GraphC.dir/src/programs/maxmaching.c.o.d"
   "/home/pablo/lang-experiments/GraphC/src/programs/petersen.c" "CMakeFiles/GraphC.dir/src/programs/petersen.c.o" "gcc" "CMakeFiles/GraphC.dir/src/programs/petersen.c.o.d"
   )
 

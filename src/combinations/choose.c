@@ -19,7 +19,7 @@
  * (5, 3, 8) -> (2, 4, 5)
  * (5, 3, 9) -> (3, 4, 5)
  */
-void choose_i(size_t n, size_t k, size_t i, size_t out[k]) {
+void choose_i(size_t n, size_t k, size_t i, size_t* out) {
 
   //fill "out" to then modify
   for (size_t j = 0; j < k; j++) {
@@ -29,26 +29,30 @@ void choose_i(size_t n, size_t k, size_t i, size_t out[k]) {
   //at each step, increment the last position
   size_t j = k - 1;
   while (i) {
-    out[j]++;
-
-    //the "max value" for each position is n - j, adjusted for 0-indexing
-    //if a position exceeds its max value, scan for the last value in out where incrementing doesn't result in exceeding the max value
-    while (out[j] > n - (k - j) + 1) {
-      j--;
-      out[j]++;
-    }
-
-    //then set all positions after that one to its value +1, +2, etc.
-    //this is sort of like setting all positions to 0 when counting from 999 to 1000, except in a way that avoids duplicate digits and hence retains that out is a valid permutation
-    j++;
-    while (j < k) {
-      out[j] = out[j-1] + 1;
-      j++;
-    }
-
-    //decrement i so out stops being changed when it reaches 0
+    choose_step(n, k, out);
     i--;
-    //reset j to the last position
-    j = k - 1;
   }
+}
+
+void choose_step(size_t n, size_t k, size_t* out) {
+  //reset j to the last position
+  size_t j = k - 1;
+  
+  out[j]++;
+
+  //the "max value" for each position is n - j, adjusted for 0-indexing
+  //if a position exceeds its max value, scan for the last value in out where incrementing doesn't result in exceeding the max value
+  while (out[j] > n - (k - j) + 1) {
+    j--;
+    out[j]++;
+  }
+
+  //then set all positions after that one to its value +1, +2, etc.
+  //this is sort of like setting all positions to 0 when counting from 999 to 1000, except in a way that avoids duplicate digits and hence retains that out is a valid permutation
+  j++;
+  while (j < k) {
+    out[j] = out[j-1] + 1;
+    j++;
+  }
+  
 }

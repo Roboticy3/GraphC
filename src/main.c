@@ -1,6 +1,6 @@
-#include <programs/petersen.h>
+
+#include <programs/maxmatching.h>
 
 int main() {
-  return petersen();
-
+  return maxmatching();
 }
