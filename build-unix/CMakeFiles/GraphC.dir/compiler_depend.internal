@@ -49,6 +49,8 @@ CMakeFiles/GraphC.dir/src/programs/maxmaching.c.o
  /usr/include/endian.h
  /usr/include/features-time64.h
  /usr/include/features.h
+ /usr/include/limits.h
+ /usr/include/linux/limits.h
  /usr/include/stdc-predef.h
  /usr/include/stdio.h
  /usr/include/stdlib.h
@@ -60,7 +62,12 @@ CMakeFiles/GraphC.dir/src/programs/maxmaching.c.o
  /usr/include/x86_64-linux-gnu/bits/floatn-common.h
  /usr/include/x86_64-linux-gnu/bits/floatn.h
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h
+ /usr/include/x86_64-linux-gnu/bits/local_lim.h
  /usr/include/x86_64-linux-gnu/bits/long-double.h
+ /usr/include/x86_64-linux-gnu/bits/posix1_lim.h
+ /usr/include/x86_64-linux-gnu/bits/posix2_lim.h
+ /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h
+ /usr/include/x86_64-linux-gnu/bits/pthread_stack_min.h
  /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h
  /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h
  /usr/include/x86_64-linux-gnu/bits/select.h
@@ -102,8 +109,10 @@ CMakeFiles/GraphC.dir/src/programs/maxmaching.c.o
  /usr/include/x86_64-linux-gnu/sys/cdefs.h
  /usr/include/x86_64-linux-gnu/sys/select.h
  /usr/include/x86_64-linux-gnu/sys/types.h
+ /usr/lib/gcc/x86_64-linux-gnu/11/include/limits.h
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdarg.h
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h
+ /usr/lib/gcc/x86_64-linux-gnu/11/include/syslimits.h
 
 CMakeFiles/GraphC.dir/src/programs/petersen.c.o
  /home/pablo/lang-experiments/GraphC/src/programs/petersen.c
