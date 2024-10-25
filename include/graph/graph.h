@@ -8,7 +8,7 @@ struct Neighbor {
 
 void add_neighbor(Neighbor** current_neighborhood_location, Neighbor* new_neighbor_location, size_t neighbor);
 
-void fill_graph_random(Neighbor** neighborhoods, size_t n_len, Neighbor* neighbors, size_t e_len, float p);
+void fill_graph_random(Neighbor** neighborhoods, size_t n_len, Neighbor* neighbors, float p);
 
 void print_graph(Neighbor** neighborhoods, size_t order, Neighbor* neighbors);
 

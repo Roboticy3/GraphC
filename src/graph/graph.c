@@ -15,8 +15,8 @@ void add_neighbor(Neighbor** current_neighborhood_location, Neighbor* new_neighb
   current_neighborhood_location[0] = new_neighbor_location;
 }
 
-/*
-void fill_graph_random(size_t* neighborhoods, int n_len, size_t* edges, int e_len, float p) {
+
+void fill_graph_random(Neighbor** neighborhoods, size_t n_len, Neighbor* neighbors, float p) {
 
   int cutoff = p == 1.0 ? INT_MAX : RAND_MAX * p;
 
@@ -25,15 +25,15 @@ void fill_graph_random(size_t* neighborhoods, int n_len, size_t* edges, int e_le
   size_t i = 0;
   size_t j = 0;
   size_t pair[2] = {1, 2};
-  while (i < e_len) {
+  while (pair[0] != n_len - 1 || pair[1] != n_len) {
     int x = rand();
     //printf("attempt: %d endpoint: %d pair: %d %d roll: %d\n", i, j, pair[0], pair[1], x);
     if (x <= cutoff) {
       //printf("added edge!\n");
-      add_neighbor(&(neighborhoods[pair[0] - 1]), edges, pair[1] - 1, j);
-      j += 2;
-      add_neighbor(&(neighborhoods[pair[1] - 1]), edges, pair[0] - 1, j);
-      j += 2;
+      add_neighbor(neighborhoods + pair[0] - 1, neighbors + pair[1] - 1, j);
+      j++;
+      add_neighbor(neighborhoods + pair[1] - 1, neighbors + pair[0] - 1, j);
+      j++;
     }
     i ++;
 
@@ -41,7 +41,7 @@ void fill_graph_random(size_t* neighborhoods, int n_len, size_t* edges, int e_le
   }
 
 }
-*/
+
 
 void print_graph(Neighbor** neighborhoods, size_t order, Neighbor* neighbors) {
   for (size_t i = 0; i < order; i++) {

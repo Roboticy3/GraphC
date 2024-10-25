@@ -1,6 +1,6 @@
 
-#include <programs/petersen.h>
+#include <programs/randomgraph.h>
 
 int main() {
-  return petersen();
+  return randomgraph();
 }
