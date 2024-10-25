@@ -42,7 +42,7 @@ void choose_step(size_t n, size_t k, size_t* out) {
 
   //the "max value" for each position is n - j, adjusted for 0-indexing
   //if a position exceeds its max value, scan for the last value in out where incrementing doesn't result in exceeding the max value
-  while (out[j] > n - (k - j) + 1) {
+  while (out[j] > n - (k - j) + 1 && j > 0) {
     j--;
     out[j]++;
   }

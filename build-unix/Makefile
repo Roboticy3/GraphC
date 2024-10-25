@@ -201,30 +201,6 @@ src/main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/GraphC.dir/build.make CMakeFiles/GraphC.dir/src/main.c.s
 .PHONY : src/main.c.s
 
-src/programs/maxmaching.o: src/programs/maxmaching.c.o
-.PHONY : src/programs/maxmaching.o
-
-# target to build an object file
-src/programs/maxmaching.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/GraphC.dir/build.make CMakeFiles/GraphC.dir/src/programs/maxmaching.c.o
-.PHONY : src/programs/maxmaching.c.o
-
-src/programs/maxmaching.i: src/programs/maxmaching.c.i
-.PHONY : src/programs/maxmaching.i
-
-# target to preprocess a source file
-src/programs/maxmaching.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/GraphC.dir/build.make CMakeFiles/GraphC.dir/src/programs/maxmaching.c.i
-.PHONY : src/programs/maxmaching.c.i
-
-src/programs/maxmaching.s: src/programs/maxmaching.c.s
-.PHONY : src/programs/maxmaching.s
-
-# target to generate assembly for a file
-src/programs/maxmaching.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/GraphC.dir/build.make CMakeFiles/GraphC.dir/src/programs/maxmaching.c.s
-.PHONY : src/programs/maxmaching.c.s
-
 src/programs/petersen.o: src/programs/petersen.c.o
 .PHONY : src/programs/petersen.o
 
@@ -249,6 +225,30 @@ src/programs/petersen.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/GraphC.dir/build.make CMakeFiles/GraphC.dir/src/programs/petersen.c.s
 .PHONY : src/programs/petersen.c.s
 
+src/programs/randomgraph.o: src/programs/randomgraph.c.o
+.PHONY : src/programs/randomgraph.o
+
+# target to build an object file
+src/programs/randomgraph.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GraphC.dir/build.make CMakeFiles/GraphC.dir/src/programs/randomgraph.c.o
+.PHONY : src/programs/randomgraph.c.o
+
+src/programs/randomgraph.i: src/programs/randomgraph.c.i
+.PHONY : src/programs/randomgraph.i
+
+# target to preprocess a source file
+src/programs/randomgraph.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GraphC.dir/build.make CMakeFiles/GraphC.dir/src/programs/randomgraph.c.i
+.PHONY : src/programs/randomgraph.c.i
+
+src/programs/randomgraph.s: src/programs/randomgraph.c.s
+.PHONY : src/programs/randomgraph.s
+
+# target to generate assembly for a file
+src/programs/randomgraph.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GraphC.dir/build.make CMakeFiles/GraphC.dir/src/programs/randomgraph.c.s
+.PHONY : src/programs/randomgraph.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -267,12 +267,12 @@ help:
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
-	@echo "... src/programs/maxmaching.o"
-	@echo "... src/programs/maxmaching.i"
-	@echo "... src/programs/maxmaching.s"
 	@echo "... src/programs/petersen.o"
 	@echo "... src/programs/petersen.i"
 	@echo "... src/programs/petersen.s"
+	@echo "... src/programs/randomgraph.o"
+	@echo "... src/programs/randomgraph.i"
+	@echo "... src/programs/randomgraph.s"
 .PHONY : help
 
 

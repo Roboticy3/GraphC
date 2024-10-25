@@ -1,6 +1,6 @@
 
-#include <programs/maxmatching.h>
+#include <programs/randomgraph.h>
 
 int main() {
-  return maxmatching();
+  return randomgraph();
 }

@@ -5,10 +5,10 @@ file(REMOVE_RECURSE
   "CMakeFiles/GraphC.dir/src/graph/graph.c.o.d"
   "CMakeFiles/GraphC.dir/src/main.c.o"
   "CMakeFiles/GraphC.dir/src/main.c.o.d"
-  "CMakeFiles/GraphC.dir/src/programs/maxmaching.c.o"
-  "CMakeFiles/GraphC.dir/src/programs/maxmaching.c.o.d"
   "CMakeFiles/GraphC.dir/src/programs/petersen.c.o"
   "CMakeFiles/GraphC.dir/src/programs/petersen.c.o.d"
+  "CMakeFiles/GraphC.dir/src/programs/randomgraph.c.o"
+  "CMakeFiles/GraphC.dir/src/programs/randomgraph.c.o.d"
   "GraphC"
   "GraphC.pdb"
 )
