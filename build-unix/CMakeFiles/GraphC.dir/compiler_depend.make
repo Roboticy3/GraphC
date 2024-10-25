@@ -31,6 +31,7 @@ CMakeFiles/GraphC.dir/src/combinations/choose.c.o: /home/pablo/lang-experiments/
 
 CMakeFiles/GraphC.dir/src/graph/graph.c.o: /home/pablo/lang-experiments/GraphC/src/graph/graph.c \
   /home/pablo/lang-experiments/GraphC/include/combinations/choose.h \
+  /home/pablo/lang-experiments/GraphC/include/graph/graph.h \
   /usr/include/alloca.h \
   /usr/include/endian.h \
   /usr/include/features-time64.h \
@@ -95,7 +96,7 @@ CMakeFiles/GraphC.dir/src/graph/graph.c.o: /home/pablo/lang-experiments/GraphC/s
   /usr/lib/gcc/x86_64-linux-gnu/11/include/syslimits.h
 
 CMakeFiles/GraphC.dir/src/main.c.o: /home/pablo/lang-experiments/GraphC/src/main.c \
-  /home/pablo/lang-experiments/GraphC/include/programs/randomgraph.h \
+  /home/pablo/lang-experiments/GraphC/include/programs/petersen.h \
   /usr/include/stdc-predef.h
 
 CMakeFiles/GraphC.dir/src/programs/petersen.c.o: /home/pablo/lang-experiments/GraphC/src/programs/petersen.c \
@@ -207,15 +208,15 @@ CMakeFiles/GraphC.dir/src/programs/randomgraph.c.o: /home/pablo/lang-experiments
 
 /usr/include/time.h:
 
-/home/pablo/lang-experiments/GraphC/src/programs/randomgraph.c:
+/home/pablo/lang-experiments/GraphC/include/programs/randomgraph.h:
 
-/home/pablo/lang-experiments/GraphC/include/graph/graph.h:
+/home/pablo/lang-experiments/GraphC/src/programs/randomgraph.c:
 
 /home/pablo/lang-experiments/GraphC/src/programs/petersen.c:
 
-/home/pablo/lang-experiments/GraphC/include/programs/randomgraph.h:
-
 /home/pablo/lang-experiments/GraphC/src/main.c:
+
+/home/pablo/lang-experiments/GraphC/include/programs/petersen.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/syslimits.h:
 
@@ -229,9 +230,13 @@ CMakeFiles/GraphC.dir/src/programs/randomgraph.c.o: /home/pablo/lang-experiments
 
 /usr/include/x86_64-linux-gnu/bits/waitflags.h:
 
-/usr/include/alloca.h:
+/usr/include/x86_64-linux-gnu/bits/uintn-identity.h:
+
+/home/pablo/lang-experiments/GraphC/include/graph/graph.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h:
+
+/usr/include/alloca.h:
 
 /usr/include/x86_64-linux-gnu/bits/local_lim.h:
 
@@ -258,8 +263,6 @@ CMakeFiles/GraphC.dir/src/programs/randomgraph.c.o: /home/pablo/lang-experiments
 /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h:
 
 /usr/include/x86_64-linux-gnu/gnu/stubs-64.h:
-
-/usr/include/x86_64-linux-gnu/bits/uintn-identity.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h:
 

@@ -4,15 +4,18 @@
 #include <limits.h>
 #include <stdio.h>
 
+#include <graph/graph.h>
+
 #include <combinations/choose.h>
 
-void add_neighbor(size_t* neighborhood, size_t* edges, size_t neighbor, size_t edge) {
-  size_t start = neighborhood[0];
-  neighborhood[0] = edge;
-  edges[edge] = neighbor;
-  edges[edge + 1] = start;
+void add_neighbor(Neighbor** current_neighborhood_location, Neighbor* new_neighbor_location, size_t neighbor) {
+  Neighbor* start = current_neighborhood_location[0];
+  Neighbor new_neighbor = {neighbor, start};
+  new_neighbor_location[0] = new_neighbor;
+  current_neighborhood_location[0] = new_neighbor_location;
 }
 
+/*
 void fill_graph_random(size_t* neighborhoods, int n_len, size_t* edges, int e_len, float p) {
 
   int cutoff = p == 1.0 ? INT_MAX : RAND_MAX * p;
@@ -38,14 +41,17 @@ void fill_graph_random(size_t* neighborhoods, int n_len, size_t* edges, int e_le
   }
 
 }
+*/
 
-void print_graph(size_t* neighborhoods, size_t order, size_t* edges) {
+void print_graph(Neighbor** neighborhoods, size_t order, Neighbor* neighbors) {
   for (size_t i = 0; i < order; i++) {
-    size_t n = neighborhoods[i];
+    Neighbor* n = neighborhoods[i];
     printf("[%ld]", i);
-    while (n != -1) {
-      printf(" -> %ld", edges[n]);
-      n = edges[n + 1];
+    int i = 0;
+    while (n) {
+      printf(" -> %ld", n->neighbor);
+      n = n->next;
+      //printf("%ld\n",n);
     }
     printf("\n");
   }

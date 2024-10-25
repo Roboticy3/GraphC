@@ -3,6 +3,7 @@
     "graph.h": "c",
     "strings.h": "c",
     "numeric.h": "c",
-    "choose.h": "c"
+    "choose.h": "c",
+    "petersen.h": "c"
   }
 }

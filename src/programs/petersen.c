@@ -9,7 +9,7 @@
 #define PETERSON_N 5
 #define N_CHOOSE_K 10
 #define NmK_CHOOSE_K 3
-#define EDGES N_CHOOSE_K * NmK_CHOOSE_K * 2
+#define EDGES N_CHOOSE_K * NmK_CHOOSE_K
 
 int is_petersen_neighbor(size_t* u, size_t len_u, size_t* v, size_t len_v) {
   for (size_t i = 0; i < len_u; i++) {
@@ -31,8 +31,8 @@ int petersen() {
   }
 
   //allocate edges
-  size_t neighborhoods[N_CHOOSE_K] = { [ 0 ... (N_CHOOSE_K - 1) ] = -1 };
-  size_t edges[EDGES] = { [ 0 ... (EDGES - 1) ] = -1};
+  Neighbor* neighborhoods[N_CHOOSE_K] = { 0 };
+  Neighbor neighbors[EDGES] = { 0 };
 
   //compute edges
   //edge being computed
@@ -46,14 +46,14 @@ int petersen() {
       if (is_petersen_neighbor(vertices[i], PETERSON_K, vertices[j], PETERSON_K)) {
 
         //if there's an edge, make it the first edge in i's chain, pushing the rest down
-        add_neighbor(&(neighborhoods[i]), edges, j, k);
+        add_neighbor(neighborhoods + i, neighbors + k, j);
 
-        k += 2;
+        k++;
 
       }
     }
   }
 
-  print_graph(neighborhoods, N_CHOOSE_K, edges);
+  print_graph(neighborhoods, N_CHOOSE_K, neighbors);
 
 }

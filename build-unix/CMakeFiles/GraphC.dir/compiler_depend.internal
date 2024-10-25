@@ -33,6 +33,7 @@ CMakeFiles/GraphC.dir/src/combinations/choose.c.o
 CMakeFiles/GraphC.dir/src/graph/graph.c.o
  /home/pablo/lang-experiments/GraphC/src/graph/graph.c
  /home/pablo/lang-experiments/GraphC/include/combinations/choose.h
+ /home/pablo/lang-experiments/GraphC/include/graph/graph.h
  /usr/include/alloca.h
  /usr/include/endian.h
  /usr/include/features-time64.h
@@ -98,7 +99,7 @@ CMakeFiles/GraphC.dir/src/graph/graph.c.o
 
 CMakeFiles/GraphC.dir/src/main.c.o
  /home/pablo/lang-experiments/GraphC/src/main.c
- /home/pablo/lang-experiments/GraphC/include/programs/randomgraph.h
+ /home/pablo/lang-experiments/GraphC/include/programs/petersen.h
  /usr/include/stdc-predef.h
 
 CMakeFiles/GraphC.dir/src/programs/petersen.c.o

@@ -13,6 +13,7 @@
 
 #define EDGES G_MAX_EDGES * 4
 
+/*
 int randomgraph() {
   float p = 0.0;
 
@@ -31,3 +32,4 @@ int randomgraph() {
   p += 0.00001;
   }
 }
+*/
