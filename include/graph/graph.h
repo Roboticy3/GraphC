@@ -6,10 +6,17 @@ struct Neighbor {
   struct Neighbor* next;
 } typedef Neighbor;
 
-void add_neighbor(Neighbor** current_neighborhood_location, Neighbor* new_neighbor_location, size_t neighbor);
+struct NeighborhoodGraph {
+  Neighbor** neighborhoods;
+  size_t order;
+  Neighbor* neighbors;
+  size_t edges;
+} typedef NeighborhoodGraph;
 
-void fill_graph_random(Neighbor** neighborhoods, size_t n_len, Neighbor* neighbors, float p);
+void add_neighbor(NeighborhoodGraph* graph, size_t vertex, size_t edge);
 
-void print_graph(Neighbor** neighborhoods, size_t order, Neighbor* neighbors);
+void fill_graph_random(NeighborhoodGraph* graph, float p);
+
+void print_graph(NeighborhoodGraph graph);
 
 #endif

@@ -96,6 +96,7 @@ CMakeFiles/GraphC.dir/src/graph/graph.c.o: /home/pablo/lang-experiments/GraphC/s
   /usr/lib/gcc/x86_64-linux-gnu/11/include/syslimits.h
 
 CMakeFiles/GraphC.dir/src/main.c.o: /home/pablo/lang-experiments/GraphC/src/main.c \
+  /home/pablo/lang-experiments/GraphC/include/programs/petersen.h \
   /home/pablo/lang-experiments/GraphC/include/programs/randomgraph.h \
   /usr/include/stdc-predef.h
 
@@ -215,6 +216,8 @@ CMakeFiles/GraphC.dir/src/programs/randomgraph.c.o: /home/pablo/lang-experiments
 /home/pablo/lang-experiments/GraphC/include/programs/randomgraph.h:
 
 /home/pablo/lang-experiments/GraphC/src/main.c:
+
+/home/pablo/lang-experiments/GraphC/include/programs/petersen.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/syslimits.h:
 
