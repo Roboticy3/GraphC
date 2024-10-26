@@ -20,7 +20,7 @@ int randomgraph() {
   while (p <= 1.0) {
     //create a graph with random edges by the something-something erdos method
     Neighbor* neighborhoods[G_ORDER] = { 0 };
-    Neighbor edges[G_MAX_EDGES] = { 0 };
+    Neighbor edges[G_MAX_EDGES * 2] = { 0 };
 
     printf("\nprobability %f: \n\n", p);
     fill_graph_random(neighborhoods, G_ORDER, edges, p);
@@ -31,7 +31,7 @@ int randomgraph() {
   }
 
   Neighbor* neighborhoods[G_ORDER] = { 0 };
-  Neighbor edges[G_MAX_EDGES] = { 0 };
+  Neighbor edges[G_MAX_EDGES * 2] = { 0 };
 
   printf("\nprobability %f: \n\n", p);
   fill_graph_random(neighborhoods, G_ORDER, edges, 1.0);

@@ -25,17 +25,17 @@ void fill_graph_random(Neighbor** neighborhoods, size_t n_len, Neighbor* neighbo
   size_t i = 0;
   size_t j = 0;
   size_t pair[2] = {1, 2};
-  while (pair[0] != n_len - 1 || pair[1] != n_len) {
+  while (pair[0] < n_len || pair[1] < n_len + 1) {
     int x = rand();
     //printf("attempt: %d endpoint: %d pair: %d %d roll: %d\n", i, j, pair[0], pair[1], x);
     if (x <= cutoff) {
-      //printf("added edge!\n");
-      add_neighbor(neighborhoods + pair[0] - 1, neighbors + pair[1] - 1, j);
+      printf("added edge! %ld %ld, edge %d\n", pair[0], pair[1], j);
+      add_neighbor(neighborhoods + pair[0] - 1, neighbors + j, pair[1] - 1);
       j++;
-      add_neighbor(neighborhoods + pair[1] - 1, neighbors + pair[0] - 1, j);
+      add_neighbor(neighborhoods + pair[1] - 1, neighbors + j, pair[0] - 1);
       j++;
     }
-    i ++;
+    i++;
 
     choose_step(n_len, 2, pair);
   }
