@@ -96,8 +96,12 @@ CMakeFiles/GraphC.dir/src/graph/graph.c.o: /home/pablo/lang-experiments/GraphC/s
   /usr/lib/gcc/x86_64-linux-gnu/11/include/syslimits.h
 
 CMakeFiles/GraphC.dir/src/main.c.o: /home/pablo/lang-experiments/GraphC/src/main.c \
+  /home/pablo/lang-experiments/GraphC/include/programs/maxmatching.h \
   /home/pablo/lang-experiments/GraphC/include/programs/petersen.h \
   /home/pablo/lang-experiments/GraphC/include/programs/randomgraph.h \
+  /usr/include/stdc-predef.h
+
+CMakeFiles/GraphC.dir/src/programs/maxmatching.c.o: /home/pablo/lang-experiments/GraphC/src/programs/maxmatching.c \
   /usr/include/stdc-predef.h
 
 CMakeFiles/GraphC.dir/src/programs/petersen.c.o: /home/pablo/lang-experiments/GraphC/src/programs/petersen.c \
@@ -233,6 +237,8 @@ CMakeFiles/GraphC.dir/src/programs/randomgraph.c.o: /home/pablo/lang-experiments
 
 /usr/include/x86_64-linux-gnu/bits/uintn-identity.h:
 
+/home/pablo/lang-experiments/GraphC/src/programs/maxmatching.c:
+
 /home/pablo/lang-experiments/GraphC/include/graph/graph.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h:
@@ -252,6 +258,8 @@ CMakeFiles/GraphC.dir/src/programs/randomgraph.c.o: /home/pablo/lang-experiments
 /usr/include/x86_64-linux-gnu/bits/stdio_lim.h:
 
 /usr/include/x86_64-linux-gnu/bits/wordsize.h:
+
+/home/pablo/lang-experiments/GraphC/include/programs/maxmatching.h:
 
 /usr/include/stdlib.h:
 

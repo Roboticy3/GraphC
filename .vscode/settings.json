@@ -4,6 +4,7 @@
     "strings.h": "c",
     "numeric.h": "c",
     "choose.h": "c",
-    "petersen.h": "c"
+    "petersen.h": "c",
+    "maxmatching.h": "c"
   }
 }

@@ -81,12 +81,12 @@ clean: CMakeFiles/GraphC.dir/clean
 CMakeFiles/GraphC.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/GraphC.dir/build.make CMakeFiles/GraphC.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/GraphC.dir/build.make CMakeFiles/GraphC.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/pablo/lang-experiments/GraphC/build-unix/CMakeFiles --progress-num=1,2,3,4,5,6 "Built target GraphC"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/pablo/lang-experiments/GraphC/build-unix/CMakeFiles --progress-num=1,2,3,4,5,6,7 "Built target GraphC"
 .PHONY : CMakeFiles/GraphC.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/GraphC.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pablo/lang-experiments/GraphC/build-unix/CMakeFiles 6
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pablo/lang-experiments/GraphC/build-unix/CMakeFiles 7
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/GraphC.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/pablo/lang-experiments/GraphC/build-unix/CMakeFiles 0
 .PHONY : CMakeFiles/GraphC.dir/rule

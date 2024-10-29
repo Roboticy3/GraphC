@@ -201,6 +201,30 @@ src/main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/GraphC.dir/build.make CMakeFiles/GraphC.dir/src/main.c.s
 .PHONY : src/main.c.s
 
+src/programs/maxmatching.o: src/programs/maxmatching.c.o
+.PHONY : src/programs/maxmatching.o
+
+# target to build an object file
+src/programs/maxmatching.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GraphC.dir/build.make CMakeFiles/GraphC.dir/src/programs/maxmatching.c.o
+.PHONY : src/programs/maxmatching.c.o
+
+src/programs/maxmatching.i: src/programs/maxmatching.c.i
+.PHONY : src/programs/maxmatching.i
+
+# target to preprocess a source file
+src/programs/maxmatching.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GraphC.dir/build.make CMakeFiles/GraphC.dir/src/programs/maxmatching.c.i
+.PHONY : src/programs/maxmatching.c.i
+
+src/programs/maxmatching.s: src/programs/maxmatching.c.s
+.PHONY : src/programs/maxmatching.s
+
+# target to generate assembly for a file
+src/programs/maxmatching.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GraphC.dir/build.make CMakeFiles/GraphC.dir/src/programs/maxmatching.c.s
+.PHONY : src/programs/maxmatching.c.s
+
 src/programs/petersen.o: src/programs/petersen.c.o
 .PHONY : src/programs/petersen.o
 
@@ -267,6 +291,9 @@ help:
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/programs/maxmatching.o"
+	@echo "... src/programs/maxmatching.i"
+	@echo "... src/programs/maxmatching.s"
 	@echo "... src/programs/petersen.o"
 	@echo "... src/programs/petersen.i"
 	@echo "... src/programs/petersen.s"

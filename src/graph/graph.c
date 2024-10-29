@@ -39,6 +39,10 @@ void fill_graph_random(NeighborhoodGraph* graph, float p) {
 
 }
 
+void max_matching(NeighborhoodGraph graph, size_t* matching) {
+  
+}
+
 void print_graph(NeighborhoodGraph graph) {
   for (size_t i = 0; i < graph.order; i++) {
     Neighbor* n = graph.neighborhoods[i];
