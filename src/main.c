@@ -5,5 +5,5 @@
 #include <programs/queuetest.h>
 
 int main(int argc, char** argv) {
-  return queuetest();
+  return randomgraph();
 }

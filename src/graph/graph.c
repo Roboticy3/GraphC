@@ -5,8 +5,8 @@
 #include <stdio.h>
 
 #include <graph/graph.h>
-
 #include <combinations/choose.h>
+#include <collections/queue.h>
 
 void add_neighbor(NeighborhoodGraph* g, size_t vertex, size_t neighbor) {
   Neighbor* start = g->neighborhoods[vertex];
@@ -59,8 +59,47 @@ void fill_graph_random(NeighborhoodGraph* graph, float p) {
 
 }
 
-void bfs(NeighborhoodGraph graph, size_t from, size_t to, Neighbor** path) {
-  
+void bfs(NeighborhoodGraph g, Fan f) {
+  //vertex queue
+  queue q = { 0 };
+  //allocate space for every vertex in the graph
+  q.buffer = calloc(g.order, sizeof(size_t));
+  q.capacity = g.order * sizeof(size_t);
+  //add the starting vertex
+  queue_push(&q, &(f.center), sizeof(size_t));
+
+  //distance array
+  size_t* d = malloc(g.order * sizeof(size_t));
+  //fill with the maximum possible distance. -1 = size_t max
+  for (int i = 0; i < g.order; i++) d[i] = -1;
+  //set the distance of the starting vertex to 0
+  d[f.center] = 0;
+
+  //while there are vertices in the queue,
+  while (queue_size(q)) {
+    size_t v;
+    //pop the oldest vertex in the queue, v, and look through its neighbors
+    queue_pop(&q, &v, sizeof(size_t));
+    for (Neighbor* n = g.neighborhoods[v]; n; n = n->next) {
+      //if the distance of a neighbor has not been set yet, it has yet to be explored, so add it to the queue
+      if (d[n->neighbor] == -1) {
+        queue_push(&q, &(n->neighbor), sizeof(size_t));
+        
+      }
+
+      //if the distance to the neighbor through v is better than its current distance, update its entry in the distance array
+      //since the "default" distance is maximum, finding a neighbor that hasn't been explored yet will always update its distance
+      if (d[n->neighbor] > d[v] + 1) {
+        d[n->neighbor] = d[v] + 1;
+        //this is also when the shortest path to that vertex is updated.
+        f.paths[n->neighbor] = v;
+      }
+    }
+  }
+
+  //free the queue and distance array
+  free(q.buffer);
+  free(d);
 }
 
 void print_graph(NeighborhoodGraph graph) {
@@ -74,5 +113,12 @@ void print_graph(NeighborhoodGraph graph) {
       //printf("%ld\n",n);
     }
     printf("\n");
+  }
+}
+
+void print_fan(Fan fan) {
+  for (size_t i = 0; i < fan.order; i++) {
+    size_t n = fan.paths[i];
+    printf("[%ld] -> %ld\n", i, n);
   }
 }

@@ -48,6 +48,7 @@ CMakeFiles/GraphC.dir/src/combinations/choose.c.o: /home/pablo/lang-experiments/
   /usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h
 
 CMakeFiles/GraphC.dir/src/graph/graph.c.o: /home/pablo/lang-experiments/GraphC/src/graph/graph.c \
+  /home/pablo/lang-experiments/GraphC/include/collections/queue.h \
   /home/pablo/lang-experiments/GraphC/include/combinations/choose.h \
   /home/pablo/lang-experiments/GraphC/include/graph/graph.h \
   /usr/include/alloca.h \
