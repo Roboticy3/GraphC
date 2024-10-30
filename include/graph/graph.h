@@ -25,7 +25,7 @@ void add_neighbor(NeighborhoodGraph* graph, size_t vertex, size_t edge);
 
 void fill_graph_random(NeighborhoodGraph* graph, float p);
 
-void bfs(NeighborhoodGraph g, SinkTree f);
+void bfs(NeighborhoodGraph g, SinkTree* t);
 
 void print_graph(NeighborhoodGraph graph);
 

@@ -59,21 +59,21 @@ void fill_graph_random(NeighborhoodGraph* graph, float p) {
 
 }
 
-void bfs(NeighborhoodGraph g, SinkTree f) {
+void bfs(NeighborhoodGraph g, SinkTree* t) {
   //vertex queue
   queue q = { 0 };
   //allocate space for every vertex in the graph
   q.buffer = calloc(g.order, sizeof(size_t));
   q.capacity = g.order * sizeof(size_t);
   //add the starting vertex
-  queue_push(&q, &(f.center), sizeof(size_t));
+  queue_push(&q, &(t->center), sizeof(size_t));
 
   //distance array
   size_t* d = malloc(g.order * sizeof(size_t));
   //fill with the maximum possible distance. -1 = size_t max
   for (int i = 0; i < g.order; i++) d[i] = -1;
   //set the distance of the starting vertex to 0
-  d[f.center] = 0;
+  d[t->center] = 0;
 
   //while there are vertices in the queue,
   while (queue_size(q)) {
@@ -92,7 +92,7 @@ void bfs(NeighborhoodGraph g, SinkTree f) {
       if (d[n->neighbor] > d[v] + 1) {
         d[n->neighbor] = d[v] + 1;
         //this is also when the shortest path to that vertex is updated.
-        f.paths[n->neighbor] = v;
+        t->paths[n->neighbor] = v;
       }
     }
   }
@@ -116,9 +116,10 @@ void print_graph(NeighborhoodGraph graph) {
   }
 }
 
-void print_sinktree(SinkTree fan) {
-  for (size_t i = 0; i < fan.order; i++) {
-    size_t n = fan.paths[i];
-    printf("[%ld] -> %ld\n", i, n);
+void print_sinktree(SinkTree t) {
+  for (size_t i = 0; i < t.order; i++) {
+    size_t n = t.paths[i];
+    printf("[%ld]%s -> %ld\n", i, i == t.center ? "*":"", n);
   }
+  
 }

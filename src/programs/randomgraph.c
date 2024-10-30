@@ -8,9 +8,9 @@
 #include <time.h>
 #include <limits.h>
 
-#define G_ORDER 10
-#define G_MAX_EDGES 45 * 2
-#define E_P 0.5
+#define G_ORDER 20
+#define G_MAX_EDGES 190 * 2
+#define E_P 0.25
 
 
 int randomgraph() {
@@ -27,9 +27,9 @@ int randomgraph() {
   print_graph(g);
 
   size_t shortest_paths[G_ORDER] = {0};
-  SinkTree t = {shortest_paths, G_ORDER, 0};
+  SinkTree t = {shortest_paths, G_ORDER, 0, -1};
 
-  bfs(g, t);
+  bfs(g, &t);
 
   printf("\nshortest paths from %ld: \n\n", t.center);
 
