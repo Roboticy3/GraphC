@@ -56,3 +56,13 @@ void choose_step(size_t n, size_t k, size_t* out) {
   }
   
 }
+
+size_t choose(size_t n, size_t k) {
+  double x = 1.0;
+  for (double i = 1.0; i <= k; i += 1.0) {
+    double factor = (n - k + i) / i;
+    x *= factor;
+    //printf("%f, %f\n", x, factor );
+  }
+  return x + 0.01;
+}

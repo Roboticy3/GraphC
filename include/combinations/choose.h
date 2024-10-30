@@ -7,4 +7,6 @@ void choose_i(size_t n, size_t k, size_t i, size_t* out);
 
 void choose_step(size_t n, size_t k, size_t* out);
 
+size_t choose(size_t n, size_t k);
+
 #endif

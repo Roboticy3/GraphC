@@ -3,6 +3,6 @@
 #include <programs/petersen.h>
 #include <programs/maxmatching.h>
 
-int main() {
-  return maxmatching();
+int main(int argc, char** argv) {
+  return maxmatching(argc, argv);
 }

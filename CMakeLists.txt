@@ -10,11 +10,15 @@ project(GraphC)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -O3")
+
 #define the source code directories, "include" is for headers and "src" is for implementation
 include_directories(
         ${PROJECT_SOURCE_DIR}/include
         ${PROJECT_SOURCE_DIR}/src
 )
+
 
 #define a list, called SRC_FILES, that finds and stores all the source code files within "include" and "src" directories
 file(GLOB_RECURSE SRC_FILES
