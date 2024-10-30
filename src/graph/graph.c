@@ -59,7 +59,7 @@ void fill_graph_random(NeighborhoodGraph* graph, float p) {
 
 }
 
-void bfs(NeighborhoodGraph g, Fan f) {
+void bfs(NeighborhoodGraph g, SinkTree f) {
   //vertex queue
   queue q = { 0 };
   //allocate space for every vertex in the graph
@@ -116,7 +116,7 @@ void print_graph(NeighborhoodGraph graph) {
   }
 }
 
-void print_fan(Fan fan) {
+void print_sinktree(SinkTree fan) {
   for (size_t i = 0; i < fan.order; i++) {
     size_t n = fan.paths[i];
     printf("[%ld] -> %ld\n", i, n);

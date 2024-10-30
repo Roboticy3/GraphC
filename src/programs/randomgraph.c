@@ -27,11 +27,11 @@ int randomgraph() {
   print_graph(g);
 
   size_t shortest_paths[G_ORDER] = {0};
-  Fan f = {shortest_paths, G_ORDER, 0};
+  SinkTree t = {shortest_paths, G_ORDER, 0};
 
-  bfs(g, f);
+  bfs(g, t);
 
-  printf("\nshortest paths from %ld: \n\n", f.center);
+  printf("\nshortest paths from %ld: \n\n", t.center);
 
-  print_fan(f);
+  print_sinktree(t);
 }

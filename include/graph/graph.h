@@ -15,20 +15,20 @@ struct NeighborhoodGraph {
   size_t edges;
 } typedef NeighborhoodGraph;
 
-struct Fan {
+struct SinkTree {
   size_t* paths;
   size_t order;
   size_t center;
-} typedef Fan;
+} typedef SinkTree;
 
 void add_neighbor(NeighborhoodGraph* graph, size_t vertex, size_t edge);
 
 void fill_graph_random(NeighborhoodGraph* graph, float p);
 
-void bfs(NeighborhoodGraph g, Fan f);
+void bfs(NeighborhoodGraph g, SinkTree f);
 
 void print_graph(NeighborhoodGraph graph);
 
-void print_fan(Fan fan);
+void print_sinktree(SinkTree fan);
 
 #endif
