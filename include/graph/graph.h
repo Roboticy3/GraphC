@@ -1,6 +1,8 @@
 #ifndef GRAPH_H_
 #define GRAPH_H_
 
+#include <stddef.h>
+
 struct Neighbor {
   size_t neighbor;
   struct Neighbor* next;

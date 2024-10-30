@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/GraphC.dir/src/collections/queue.c.o"
+  "CMakeFiles/GraphC.dir/src/collections/queue.c.o.d"
   "CMakeFiles/GraphC.dir/src/combinations/choose.c.o"
   "CMakeFiles/GraphC.dir/src/combinations/choose.c.o.d"
   "CMakeFiles/GraphC.dir/src/graph/graph.c.o"
@@ -9,6 +11,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/GraphC.dir/src/programs/maxmatching.c.o.d"
   "CMakeFiles/GraphC.dir/src/programs/petersen.c.o"
   "CMakeFiles/GraphC.dir/src/programs/petersen.c.o.d"
+  "CMakeFiles/GraphC.dir/src/programs/queuetest.c.o"
+  "CMakeFiles/GraphC.dir/src/programs/queuetest.c.o.d"
   "CMakeFiles/GraphC.dir/src/programs/randomgraph.c.o"
   "CMakeFiles/GraphC.dir/src/programs/randomgraph.c.o.d"
   "GraphC"

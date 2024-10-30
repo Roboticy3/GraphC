@@ -59,7 +59,7 @@ void fill_graph_random(NeighborhoodGraph* graph, float p) {
 
 }
 
-void max_matching(NeighborhoodGraph graph, size_t* matching) {
+void bfs(NeighborhoodGraph graph, size_t from, size_t to, Neighbor** path) {
   
 }
 

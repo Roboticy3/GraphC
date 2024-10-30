@@ -8,11 +8,13 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/home/pablo/lang-experiments/GraphC/src/collections/queue.c" "CMakeFiles/GraphC.dir/src/collections/queue.c.o" "gcc" "CMakeFiles/GraphC.dir/src/collections/queue.c.o.d"
   "/home/pablo/lang-experiments/GraphC/src/combinations/choose.c" "CMakeFiles/GraphC.dir/src/combinations/choose.c.o" "gcc" "CMakeFiles/GraphC.dir/src/combinations/choose.c.o.d"
   "/home/pablo/lang-experiments/GraphC/src/graph/graph.c" "CMakeFiles/GraphC.dir/src/graph/graph.c.o" "gcc" "CMakeFiles/GraphC.dir/src/graph/graph.c.o.d"
   "/home/pablo/lang-experiments/GraphC/src/main.c" "CMakeFiles/GraphC.dir/src/main.c.o" "gcc" "CMakeFiles/GraphC.dir/src/main.c.o.d"
   "/home/pablo/lang-experiments/GraphC/src/programs/maxmatching.c" "CMakeFiles/GraphC.dir/src/programs/maxmatching.c.o" "gcc" "CMakeFiles/GraphC.dir/src/programs/maxmatching.c.o.d"
   "/home/pablo/lang-experiments/GraphC/src/programs/petersen.c" "CMakeFiles/GraphC.dir/src/programs/petersen.c.o" "gcc" "CMakeFiles/GraphC.dir/src/programs/petersen.c.o.d"
+  "/home/pablo/lang-experiments/GraphC/src/programs/queuetest.c" "CMakeFiles/GraphC.dir/src/programs/queuetest.c.o" "gcc" "CMakeFiles/GraphC.dir/src/programs/queuetest.c.o.d"
   "/home/pablo/lang-experiments/GraphC/src/programs/randomgraph.c" "CMakeFiles/GraphC.dir/src/programs/randomgraph.c.o" "gcc" "CMakeFiles/GraphC.dir/src/programs/randomgraph.c.o.d"
   )
 

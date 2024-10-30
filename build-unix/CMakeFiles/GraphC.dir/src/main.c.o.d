@@ -3,4 +3,5 @@ CMakeFiles/GraphC.dir/src/main.c.o: \
  /usr/include/stdc-predef.h \
  /home/pablo/lang-experiments/GraphC/include/programs/randomgraph.h \
  /home/pablo/lang-experiments/GraphC/include/programs/petersen.h \
- /home/pablo/lang-experiments/GraphC/include/programs/maxmatching.h
+ /home/pablo/lang-experiments/GraphC/include/programs/maxmatching.h \
+ /home/pablo/lang-experiments/GraphC/include/programs/queuetest.h

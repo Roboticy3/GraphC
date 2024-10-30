@@ -129,6 +129,30 @@ GraphC/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/GraphC.dir/build.make CMakeFiles/GraphC.dir/build
 .PHONY : GraphC/fast
 
+src/collections/queue.o: src/collections/queue.c.o
+.PHONY : src/collections/queue.o
+
+# target to build an object file
+src/collections/queue.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GraphC.dir/build.make CMakeFiles/GraphC.dir/src/collections/queue.c.o
+.PHONY : src/collections/queue.c.o
+
+src/collections/queue.i: src/collections/queue.c.i
+.PHONY : src/collections/queue.i
+
+# target to preprocess a source file
+src/collections/queue.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GraphC.dir/build.make CMakeFiles/GraphC.dir/src/collections/queue.c.i
+.PHONY : src/collections/queue.c.i
+
+src/collections/queue.s: src/collections/queue.c.s
+.PHONY : src/collections/queue.s
+
+# target to generate assembly for a file
+src/collections/queue.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GraphC.dir/build.make CMakeFiles/GraphC.dir/src/collections/queue.c.s
+.PHONY : src/collections/queue.c.s
+
 src/combinations/choose.o: src/combinations/choose.c.o
 .PHONY : src/combinations/choose.o
 
@@ -249,6 +273,30 @@ src/programs/petersen.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/GraphC.dir/build.make CMakeFiles/GraphC.dir/src/programs/petersen.c.s
 .PHONY : src/programs/petersen.c.s
 
+src/programs/queuetest.o: src/programs/queuetest.c.o
+.PHONY : src/programs/queuetest.o
+
+# target to build an object file
+src/programs/queuetest.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GraphC.dir/build.make CMakeFiles/GraphC.dir/src/programs/queuetest.c.o
+.PHONY : src/programs/queuetest.c.o
+
+src/programs/queuetest.i: src/programs/queuetest.c.i
+.PHONY : src/programs/queuetest.i
+
+# target to preprocess a source file
+src/programs/queuetest.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GraphC.dir/build.make CMakeFiles/GraphC.dir/src/programs/queuetest.c.i
+.PHONY : src/programs/queuetest.c.i
+
+src/programs/queuetest.s: src/programs/queuetest.c.s
+.PHONY : src/programs/queuetest.s
+
+# target to generate assembly for a file
+src/programs/queuetest.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GraphC.dir/build.make CMakeFiles/GraphC.dir/src/programs/queuetest.c.s
+.PHONY : src/programs/queuetest.c.s
+
 src/programs/randomgraph.o: src/programs/randomgraph.c.o
 .PHONY : src/programs/randomgraph.o
 
@@ -282,6 +330,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... GraphC"
+	@echo "... src/collections/queue.o"
+	@echo "... src/collections/queue.i"
+	@echo "... src/collections/queue.s"
 	@echo "... src/combinations/choose.o"
 	@echo "... src/combinations/choose.i"
 	@echo "... src/combinations/choose.s"
@@ -297,6 +348,9 @@ help:
 	@echo "... src/programs/petersen.o"
 	@echo "... src/programs/petersen.i"
 	@echo "... src/programs/petersen.s"
+	@echo "... src/programs/queuetest.o"
+	@echo "... src/programs/queuetest.i"
+	@echo "... src/programs/queuetest.s"
 	@echo "... src/programs/randomgraph.o"
 	@echo "... src/programs/randomgraph.i"
 	@echo "... src/programs/randomgraph.s"

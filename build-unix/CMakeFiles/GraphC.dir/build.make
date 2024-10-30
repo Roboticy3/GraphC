@@ -69,10 +69,24 @@ include CMakeFiles/GraphC.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/GraphC.dir/flags.make
 
+CMakeFiles/GraphC.dir/src/collections/queue.c.o: CMakeFiles/GraphC.dir/flags.make
+CMakeFiles/GraphC.dir/src/collections/queue.c.o: /home/pablo/lang-experiments/GraphC/src/collections/queue.c
+CMakeFiles/GraphC.dir/src/collections/queue.c.o: CMakeFiles/GraphC.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/pablo/lang-experiments/GraphC/build-unix/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/GraphC.dir/src/collections/queue.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/GraphC.dir/src/collections/queue.c.o -MF CMakeFiles/GraphC.dir/src/collections/queue.c.o.d -o CMakeFiles/GraphC.dir/src/collections/queue.c.o -c /home/pablo/lang-experiments/GraphC/src/collections/queue.c
+
+CMakeFiles/GraphC.dir/src/collections/queue.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/GraphC.dir/src/collections/queue.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/pablo/lang-experiments/GraphC/src/collections/queue.c > CMakeFiles/GraphC.dir/src/collections/queue.c.i
+
+CMakeFiles/GraphC.dir/src/collections/queue.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/GraphC.dir/src/collections/queue.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/pablo/lang-experiments/GraphC/src/collections/queue.c -o CMakeFiles/GraphC.dir/src/collections/queue.c.s
+
 CMakeFiles/GraphC.dir/src/combinations/choose.c.o: CMakeFiles/GraphC.dir/flags.make
 CMakeFiles/GraphC.dir/src/combinations/choose.c.o: /home/pablo/lang-experiments/GraphC/src/combinations/choose.c
 CMakeFiles/GraphC.dir/src/combinations/choose.c.o: CMakeFiles/GraphC.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/pablo/lang-experiments/GraphC/build-unix/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/GraphC.dir/src/combinations/choose.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/pablo/lang-experiments/GraphC/build-unix/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/GraphC.dir/src/combinations/choose.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/GraphC.dir/src/combinations/choose.c.o -MF CMakeFiles/GraphC.dir/src/combinations/choose.c.o.d -o CMakeFiles/GraphC.dir/src/combinations/choose.c.o -c /home/pablo/lang-experiments/GraphC/src/combinations/choose.c
 
 CMakeFiles/GraphC.dir/src/combinations/choose.c.i: cmake_force
@@ -86,7 +100,7 @@ CMakeFiles/GraphC.dir/src/combinations/choose.c.s: cmake_force
 CMakeFiles/GraphC.dir/src/graph/graph.c.o: CMakeFiles/GraphC.dir/flags.make
 CMakeFiles/GraphC.dir/src/graph/graph.c.o: /home/pablo/lang-experiments/GraphC/src/graph/graph.c
 CMakeFiles/GraphC.dir/src/graph/graph.c.o: CMakeFiles/GraphC.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/pablo/lang-experiments/GraphC/build-unix/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/GraphC.dir/src/graph/graph.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/pablo/lang-experiments/GraphC/build-unix/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/GraphC.dir/src/graph/graph.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/GraphC.dir/src/graph/graph.c.o -MF CMakeFiles/GraphC.dir/src/graph/graph.c.o.d -o CMakeFiles/GraphC.dir/src/graph/graph.c.o -c /home/pablo/lang-experiments/GraphC/src/graph/graph.c
 
 CMakeFiles/GraphC.dir/src/graph/graph.c.i: cmake_force
@@ -100,7 +114,7 @@ CMakeFiles/GraphC.dir/src/graph/graph.c.s: cmake_force
 CMakeFiles/GraphC.dir/src/main.c.o: CMakeFiles/GraphC.dir/flags.make
 CMakeFiles/GraphC.dir/src/main.c.o: /home/pablo/lang-experiments/GraphC/src/main.c
 CMakeFiles/GraphC.dir/src/main.c.o: CMakeFiles/GraphC.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/pablo/lang-experiments/GraphC/build-unix/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/GraphC.dir/src/main.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/pablo/lang-experiments/GraphC/build-unix/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/GraphC.dir/src/main.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/GraphC.dir/src/main.c.o -MF CMakeFiles/GraphC.dir/src/main.c.o.d -o CMakeFiles/GraphC.dir/src/main.c.o -c /home/pablo/lang-experiments/GraphC/src/main.c
 
 CMakeFiles/GraphC.dir/src/main.c.i: cmake_force
@@ -114,7 +128,7 @@ CMakeFiles/GraphC.dir/src/main.c.s: cmake_force
 CMakeFiles/GraphC.dir/src/programs/maxmatching.c.o: CMakeFiles/GraphC.dir/flags.make
 CMakeFiles/GraphC.dir/src/programs/maxmatching.c.o: /home/pablo/lang-experiments/GraphC/src/programs/maxmatching.c
 CMakeFiles/GraphC.dir/src/programs/maxmatching.c.o: CMakeFiles/GraphC.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/pablo/lang-experiments/GraphC/build-unix/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/GraphC.dir/src/programs/maxmatching.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/pablo/lang-experiments/GraphC/build-unix/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/GraphC.dir/src/programs/maxmatching.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/GraphC.dir/src/programs/maxmatching.c.o -MF CMakeFiles/GraphC.dir/src/programs/maxmatching.c.o.d -o CMakeFiles/GraphC.dir/src/programs/maxmatching.c.o -c /home/pablo/lang-experiments/GraphC/src/programs/maxmatching.c
 
 CMakeFiles/GraphC.dir/src/programs/maxmatching.c.i: cmake_force
@@ -128,7 +142,7 @@ CMakeFiles/GraphC.dir/src/programs/maxmatching.c.s: cmake_force
 CMakeFiles/GraphC.dir/src/programs/petersen.c.o: CMakeFiles/GraphC.dir/flags.make
 CMakeFiles/GraphC.dir/src/programs/petersen.c.o: /home/pablo/lang-experiments/GraphC/src/programs/petersen.c
 CMakeFiles/GraphC.dir/src/programs/petersen.c.o: CMakeFiles/GraphC.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/pablo/lang-experiments/GraphC/build-unix/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/GraphC.dir/src/programs/petersen.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/pablo/lang-experiments/GraphC/build-unix/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object CMakeFiles/GraphC.dir/src/programs/petersen.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/GraphC.dir/src/programs/petersen.c.o -MF CMakeFiles/GraphC.dir/src/programs/petersen.c.o.d -o CMakeFiles/GraphC.dir/src/programs/petersen.c.o -c /home/pablo/lang-experiments/GraphC/src/programs/petersen.c
 
 CMakeFiles/GraphC.dir/src/programs/petersen.c.i: cmake_force
@@ -139,10 +153,24 @@ CMakeFiles/GraphC.dir/src/programs/petersen.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/GraphC.dir/src/programs/petersen.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/pablo/lang-experiments/GraphC/src/programs/petersen.c -o CMakeFiles/GraphC.dir/src/programs/petersen.c.s
 
+CMakeFiles/GraphC.dir/src/programs/queuetest.c.o: CMakeFiles/GraphC.dir/flags.make
+CMakeFiles/GraphC.dir/src/programs/queuetest.c.o: /home/pablo/lang-experiments/GraphC/src/programs/queuetest.c
+CMakeFiles/GraphC.dir/src/programs/queuetest.c.o: CMakeFiles/GraphC.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/pablo/lang-experiments/GraphC/build-unix/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object CMakeFiles/GraphC.dir/src/programs/queuetest.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/GraphC.dir/src/programs/queuetest.c.o -MF CMakeFiles/GraphC.dir/src/programs/queuetest.c.o.d -o CMakeFiles/GraphC.dir/src/programs/queuetest.c.o -c /home/pablo/lang-experiments/GraphC/src/programs/queuetest.c
+
+CMakeFiles/GraphC.dir/src/programs/queuetest.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/GraphC.dir/src/programs/queuetest.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/pablo/lang-experiments/GraphC/src/programs/queuetest.c > CMakeFiles/GraphC.dir/src/programs/queuetest.c.i
+
+CMakeFiles/GraphC.dir/src/programs/queuetest.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/GraphC.dir/src/programs/queuetest.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/pablo/lang-experiments/GraphC/src/programs/queuetest.c -o CMakeFiles/GraphC.dir/src/programs/queuetest.c.s
+
 CMakeFiles/GraphC.dir/src/programs/randomgraph.c.o: CMakeFiles/GraphC.dir/flags.make
 CMakeFiles/GraphC.dir/src/programs/randomgraph.c.o: /home/pablo/lang-experiments/GraphC/src/programs/randomgraph.c
 CMakeFiles/GraphC.dir/src/programs/randomgraph.c.o: CMakeFiles/GraphC.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/pablo/lang-experiments/GraphC/build-unix/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object CMakeFiles/GraphC.dir/src/programs/randomgraph.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/pablo/lang-experiments/GraphC/build-unix/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building C object CMakeFiles/GraphC.dir/src/programs/randomgraph.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/GraphC.dir/src/programs/randomgraph.c.o -MF CMakeFiles/GraphC.dir/src/programs/randomgraph.c.o.d -o CMakeFiles/GraphC.dir/src/programs/randomgraph.c.o -c /home/pablo/lang-experiments/GraphC/src/programs/randomgraph.c
 
 CMakeFiles/GraphC.dir/src/programs/randomgraph.c.i: cmake_force
@@ -155,25 +183,29 @@ CMakeFiles/GraphC.dir/src/programs/randomgraph.c.s: cmake_force
 
 # Object files for target GraphC
 GraphC_OBJECTS = \
+"CMakeFiles/GraphC.dir/src/collections/queue.c.o" \
 "CMakeFiles/GraphC.dir/src/combinations/choose.c.o" \
 "CMakeFiles/GraphC.dir/src/graph/graph.c.o" \
 "CMakeFiles/GraphC.dir/src/main.c.o" \
 "CMakeFiles/GraphC.dir/src/programs/maxmatching.c.o" \
 "CMakeFiles/GraphC.dir/src/programs/petersen.c.o" \
+"CMakeFiles/GraphC.dir/src/programs/queuetest.c.o" \
 "CMakeFiles/GraphC.dir/src/programs/randomgraph.c.o"
 
 # External object files for target GraphC
 GraphC_EXTERNAL_OBJECTS =
 
+GraphC: CMakeFiles/GraphC.dir/src/collections/queue.c.o
 GraphC: CMakeFiles/GraphC.dir/src/combinations/choose.c.o
 GraphC: CMakeFiles/GraphC.dir/src/graph/graph.c.o
 GraphC: CMakeFiles/GraphC.dir/src/main.c.o
 GraphC: CMakeFiles/GraphC.dir/src/programs/maxmatching.c.o
 GraphC: CMakeFiles/GraphC.dir/src/programs/petersen.c.o
+GraphC: CMakeFiles/GraphC.dir/src/programs/queuetest.c.o
 GraphC: CMakeFiles/GraphC.dir/src/programs/randomgraph.c.o
 GraphC: CMakeFiles/GraphC.dir/build.make
 GraphC: CMakeFiles/GraphC.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/pablo/lang-experiments/GraphC/build-unix/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking C executable GraphC"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/pablo/lang-experiments/GraphC/build-unix/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking C executable GraphC"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/GraphC.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
