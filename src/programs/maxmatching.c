@@ -65,8 +65,24 @@ int maxmatching(int argc, char** argv) {
 
   fill_graph_random(&g, a.p);
 
+  printf("graph: \n");
+
   print_graph(g);
 
+  size_t* shortest_paths = malloc(a.n * sizeof(size_t));
+  for (int i = 0; i < a.n; i++) shortest_paths[i] = -1;
+  PairEdge* shortest_paths_cycles = malloc(max_edges * 2 * sizeof(PairEdge));
+  ShortestPathGraph t = {shortest_paths, a.n, 0, shortest_paths_cycles, 0};
+
+  bfs(g, &t);
+
+  printf("\nshortest paths from %ld: \n\n", t.center);
+
+  print_shortest_paths(t);
+
+  free(shortest_paths);
+  free(shortest_paths_cycles);
+    
   free(vertices);
   free(edges);
 
