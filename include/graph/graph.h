@@ -41,8 +41,6 @@ size_t lca(ShortestPathGraph t, size_t a, size_t b);
 
 void get_cycle(ShortestPathGraph t, PairEdge e, array* out);
 
-void cycle_lengths(ShortestPathGraph t, array* out);
-
 void print_graph(NeighborhoodGraph g);
 
 void print_shortest_paths(ShortestPathGraph t);

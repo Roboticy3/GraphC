@@ -199,23 +199,6 @@ void get_cycle(ShortestPathGraph t, PairEdge e, array* out) {
   
 }
 
-void cycle_lengths(ShortestPathGraph t, array* out) {
-  out->length = t.cycle_count;
-  size_t* block = (size_t*)(out->block);
-
-  size_t* cycle_register = malloc(sizeof(size_t) * (t.order + 1));
-  array cycle_array = {cycle_register, 0, sizeof(size_t) * (t.order + 1)};
-
-  for (size_t i = 0; i < t.cycle_count; i++) {
-    PairEdge c = t.cycles[i];
-    get_cycle(t, c, &cycle_array);
-
-    block[i] = cycle_array.length;
-  }
-
-  free(cycle_register);
-}
-
 void maximize_matching(NeighborhoodGraph graph, Neighbor** matching) {
   
 }

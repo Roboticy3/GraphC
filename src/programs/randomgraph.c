@@ -8,8 +8,8 @@
 #include <time.h>
 #include <limits.h>
 
-#define G_ORDER 100
-#define G_MAX_EDGES 4950 * 2
+#define G_ORDER 10
+#define G_MAX_EDGES 45 * 2
 
 
 int randomgraph() {
@@ -24,10 +24,12 @@ int randomgraph() {
     NeighborhoodGraph g = {neighborhoods, G_ORDER, edges, 0};
 
     //printf("probability %f: \n", p);
-    printf("%f, ", p);
+    printf("p: %f\n", p);
     fill_graph_random(&g, p);
     
     print_graph(g);
+    
+    p += 0.005;
   }
 
   
