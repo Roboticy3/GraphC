@@ -25,7 +25,7 @@ int randomgraph() {
 
     //printf("probability %f: \n", p);
     printf("p: %f\n", p);
-    fill_graph_random(&g, p);
+    fill_graph_binomial(&g, p);
     
     print_graph(g);
     

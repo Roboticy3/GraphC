@@ -31,7 +31,7 @@ struct ShortestPathGraph {
 
 void add_neighbor(NeighborhoodGraph* g, size_t vertex, size_t edge);
 
-void fill_graph_random(NeighborhoodGraph* g, float p);
+void fill_graph_binomial(NeighborhoodGraph* g, float p);
 
 void bfs(NeighborhoodGraph g, ShortestPathGraph* t);
 
@@ -41,7 +41,11 @@ size_t lca(ShortestPathGraph t, size_t a, size_t b);
 
 void get_cycle(ShortestPathGraph t, PairEdge e, array* out);
 
+void binomial_graph_random_sample(size_t sample_size, size_t order, float edge_probability, size_t (*property)(NeighborhoodGraph), size_t* out);
+
 void print_graph(NeighborhoodGraph g);
+
+void print_graph_raw(NeighborhoodGraph g);
 
 void print_shortest_paths(ShortestPathGraph t);
 

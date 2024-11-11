@@ -31,8 +31,8 @@ int petersen() {
   }
 
   //allocate edges
-  Neighbor* neighborhoods[N_CHOOSE_K] = { 0 };
-  Neighbor neighbors[EDGES] = { 0 };
+  Neighbor* neighborhoods[N_CHOOSE_K];
+  Neighbor neighbors[EDGES];
   NeighborhoodGraph g = {neighborhoods, N_CHOOSE_K, neighbors, 0};
 
   //compute edges

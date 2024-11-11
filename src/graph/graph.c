@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <limits.h>
 #include <stdio.h>
+#include <time.h>
 
 #include <graph/graph.h>
 #include <combinations/choose.h>
@@ -18,30 +19,30 @@ void add_neighbor(NeighborhoodGraph* g, size_t vertex, size_t neighbor) {
 }
 
 
-void fill_graph_random(NeighborhoodGraph* graph, float p) {
+void fill_graph_binomial(NeighborhoodGraph* g, float p) {
 
   int cutoff = p == 1.0 ? INT_MAX : RAND_MAX * p;
 
-  if (graph->order < 2) {
+  if (g->order < 2) {
     return;
   }
-  else if (graph->order == 2) {
+  else if (g->order == 2) {
     int x = rand();
     if (x <= cutoff) {
-      //printf("added edge! %ld %ld, edge %d\n", 0, 1, graph->edges);
-      add_neighbor(graph, 0, 1);
-      add_neighbor(graph, 1, 0);
+      //printf("added edge! %ld %ld, edge %ld\n", 0, 1, g->edges);
+      add_neighbor(g, 0, 1);
+      add_neighbor(g, 1, 0);
     }
     return;
   }
 
-  size_t max_edges = choose(graph->order, 2);
+  size_t max_edges = choose(g->order, 2);
 
   //printf("cutoff %d\n", cutoff);
   //decide how many edges to insert into the graph
   size_t i = 0;
   size_t pair[2] = {1, 2};
-  while (pair[0] < graph->order || pair[1] < graph->order + 1) {
+  while (pair[0] < g->order || pair[1] < g->order + 1) {
     if (i >= max_edges) {
       printf("ran out of edges! pair: [%ld, %ld]; edge: %ld (out of %ld)\n", pair[0], pair[1], i, max_edges);
       break;
@@ -49,20 +50,20 @@ void fill_graph_random(NeighborhoodGraph* graph, float p) {
 
     int x = rand();
     if (x <= cutoff) {
-      //printf("added edge! %ld %ld, edge %d\n", pair[0], pair[1], graph->edges);
-      add_neighbor(graph, pair[0] - 1, pair[1] - 1);
-      add_neighbor(graph, pair[1] - 1, pair[0] - 1);
+      //printf("added edge! %ld %ld, edge %ld\n", pair[0], pair[1], g->edges);
+      add_neighbor(g, pair[0] - 1, pair[1] - 1);
+      add_neighbor(g, pair[1] - 1, pair[0] - 1);
     }
     i++;
 
-    choose_step(graph->order, 2, pair);
+    choose_step(g->order, 2, pair);
   }
 
 }
 
 void bfs(NeighborhoodGraph g, ShortestPathGraph* t) {
   //vertex queue
-  queue q = { 0 };
+  queue q;
   //allocate space for every vertex in the graph
   q.buffer = calloc(g.order, sizeof(size_t));
   q.capacity = g.order * sizeof(size_t);
@@ -155,7 +156,7 @@ size_t lca(ShortestPathGraph t, size_t a, size_t b) {
   return a;
 }
 
-//A Shortest Path Graph with a record of cycles as edges between branches in the tree can retrieve a whole cycle given an edge in 
+//the smallest cycle containing an edge e and the root of t
 void get_cycle(ShortestPathGraph t, PairEdge e, array* out) {
   size_t* block = (size_t*)out->block;
 
@@ -199,16 +200,12 @@ void get_cycle(ShortestPathGraph t, PairEdge e, array* out) {
   
 }
 
-void maximize_matching(NeighborhoodGraph graph, Neighbor** matching) {
-  
-}
-
 void print_graph(NeighborhoodGraph graph) {
   for (size_t i = 0; i < graph.order; i++) {
     Neighbor* n = graph.neighborhoods[i];
     printf("[%ld]", i);
     int i = 0;
-    while (n) {
+    while (n < graph.neighbors + graph.edges && n >= graph.neighbors) {
       printf(" -> %ld", n->neighbor);
       n = n->next;
       //printf("%ld\n",n);
@@ -217,28 +214,50 @@ void print_graph(NeighborhoodGraph graph) {
   }
 }
 
+void print_graph_raw(NeighborhoodGraph g) {
+  for (size_t i = 0; i < g.order; i++) {
+    printf("(%ld : %ld), ", i, g.neighborhoods[i] - g.neighbors);
+  }
+
+  printf("\n");
+
+  for (size_t i = 0; i< g.edges; i++) {
+    printf("(%ld : (%ld : %ld)), ", i, g.neighbors[i].neighbor, g.neighbors[i].next - g.neighbors);
+  }
+
+  printf("\n");
+}
+
 void print_shortest_paths(ShortestPathGraph t) {
   printf("shortest paths from %ld:\n", t.center);
   for (size_t i = 0; i < t.order; i++) {
     size_t n = t.paths[i];
     printf("[%ld]%s -> %ld\n", i, i == t.center ? "*":"", n);
   }
+}
 
-  size_t* cycle_register = malloc(sizeof(size_t) * (t.order + 1));
-  array cycle_array = {cycle_register, 0, sizeof(size_t) * (t.order + 1)};
-  
-  printf("cycles:\n");
-  for (size_t i = 0; i < t.cycle_count; i++) {
-    PairEdge c = t.cycles[i];
-    get_cycle(t, c, &cycle_array);
+void binomial_graph_random_sample(
+  size_t sample_size, 
+  size_t order, 
+  float edge_probability, 
+  size_t (*property)(NeighborhoodGraph), 
+  size_t* out
+) {
 
-    printf("cycle containing (%ld, %ld): %ld", c.left, c.right, cycle_register[0]);
-    for (size_t j = 1; j < cycle_array.length; j++) {
-      printf(" -> %ld", cycle_register[j]);
+  Neighbor** neighborhoods = malloc(order * sizeof(Neighbor*));
+  Neighbor* neighbors = malloc(order * (order - 1) * sizeof(Neighbor));
+
+  for (int i = 0; i < sample_size; i++) { 
+
+    for (int j = 0; j < order; j++) {
+      neighborhoods[j] = 0;
     }
-    printf("\n");
 
+    NeighborhoodGraph g = {neighborhoods, order, neighbors, 0};
+    fill_graph_binomial(&g, edge_probability);
+    out[i] = (*property)(g);
   }
 
-  free(cycle_register);
+  free(neighborhoods);
+  free(neighbors);
 }
