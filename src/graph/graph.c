@@ -7,6 +7,7 @@
 
 #include <graph/graph.h>
 #include <combinations/choose.h>
+#include <combinations/xoshiro.h>
 #include <collections/queue.h>
 #include <collections/array.h>
 
@@ -18,48 +19,45 @@ void add_neighbor(NeighborhoodGraph* g, size_t vertex, size_t neighbor) {
   g->edges++;
 }
 
+void fill_graph_binomial(NeighborhoodGraph* g, float p, pXSR random_state) {
 
-void fill_graph_binomial(NeighborhoodGraph* g, float p) {
+    size_t num;
 
-  int cutoff = p == 1.0 ? INT_MAX : RAND_MAX * p;
-
-  if (g->order < 2) {
-    return;
-  }
-  else if (g->order == 2) {
-    int x = rand();
-    if (x <= cutoff) {
-      //printf("added edge! %ld %ld, edge %ld\n", 0, 1, g->edges);
-      add_neighbor(g, 0, 1);
-      add_neighbor(g, 1, 0);
-    }
-    return;
-  }
-
-  size_t max_edges = choose(g->order, 2);
-
-  //printf("cutoff %d\n", cutoff);
-  //decide how many edges to insert into the graph
-  size_t i = 0;
-  size_t pair[2] = {1, 2};
-  while (pair[0] < g->order || pair[1] < g->order + 1) {
-    if (i >= max_edges) {
-      printf("ran out of edges! pair: [%ld, %ld]; edge: %ld (out of %ld)\n", pair[0], pair[1], i, max_edges);
-      break;
+    if (g->order < 2) {
+        return;
+    } else if (g->order == 2) {
+        num = XSRGen(XSR_SS, random_state);  // Generate a number with XSR
+        if ((double)num / (double)UINT64_MAX <= (double)p) {
+            //printf("added edge! %ld %ld, edge %ld\n", 0, 1, g->edges);
+            add_neighbor(g, 0, 1);
+            add_neighbor(g, 1, 0);
+        }
+        return;
     }
 
-    int x = rand();
-    if (x <= cutoff) {
-      //printf("added edge! %ld %ld, edge %ld\n", pair[0], pair[1], g->edges);
-      add_neighbor(g, pair[0] - 1, pair[1] - 1);
-      add_neighbor(g, pair[1] - 1, pair[0] - 1);
+    size_t max_edges = choose(g->order, 2);
+    size_t i = 0;
+    size_t pair[2] = {1, 2};
+    
+    // Insert edges while ensuring the number of edges does not exceed the max
+    while (pair[0] < g->order || pair[1] < g->order + 1) {
+        if (i >= max_edges) {
+            printf("ran out of edges! pair: [%ld, %ld]; edge: %ld (out of %ld)\n", pair[0], pair[1], i, max_edges);
+            break;
+        }
+
+        num = XSRGen(XSR_SS, random_state);  // Generate a number with XSR
+        if ((double)num / (double)UINT64_MAX <= (double)p) {
+            //printf("added edge! %ld %ld, edge %ld\n", pair[0], pair[1], g->edges);
+            add_neighbor(g, pair[0] - 1, pair[1] - 1);
+            add_neighbor(g, pair[1] - 1, pair[0] - 1);
+        }
+        i++;
+
+        choose_step(g->order, 2, pair);
     }
-    i++;
-
-    choose_step(g->order, 2, pair);
-  }
-
 }
+
 
 void bfs(NeighborhoodGraph g, ShortestPathGraph* t) {
   //vertex queue
@@ -241,7 +239,8 @@ void binomial_graph_random_sample(
   size_t order, 
   float edge_probability, 
   size_t (*property)(NeighborhoodGraph), 
-  size_t* out
+  size_t* out,
+  pXSR random_state
 ) {
 
   Neighbor** neighborhoods = malloc(order * sizeof(Neighbor*));
@@ -254,7 +253,7 @@ void binomial_graph_random_sample(
     }
 
     NeighborhoodGraph g = {neighborhoods, order, neighbors, 0};
-    fill_graph_binomial(&g, edge_probability);
+    fill_graph_binomial(&g, edge_probability, random_state);
     out[i] = (*property)(g);
   }
 

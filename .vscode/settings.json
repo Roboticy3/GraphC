@@ -6,6 +6,9 @@
     "choose.h": "c",
     "petersen.h": "c",
     "maxmatching.h": "c",
-    "limits.h": "c"
+    "limits.h": "c",
+    "stdlib.h": "c",
+    "samplingdistribution.h": "c",
+    "random": "c"
   }
 }

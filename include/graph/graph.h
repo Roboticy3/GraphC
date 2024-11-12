@@ -3,6 +3,8 @@
 
 #include <stddef.h>
 #include <collections/array.h>
+#include <stdint.h>
+#include <combinations/xoshiro.h>
 
 struct Neighbor {
   size_t neighbor;
@@ -31,7 +33,7 @@ struct ShortestPathGraph {
 
 void add_neighbor(NeighborhoodGraph* g, size_t vertex, size_t edge);
 
-void fill_graph_binomial(NeighborhoodGraph* g, float p);
+void fill_graph_binomial(NeighborhoodGraph* g, float p, pXSR seed);
 
 void bfs(NeighborhoodGraph g, ShortestPathGraph* t);
 
@@ -41,7 +43,7 @@ size_t lca(ShortestPathGraph t, size_t a, size_t b);
 
 void get_cycle(ShortestPathGraph t, PairEdge e, array* out);
 
-void binomial_graph_random_sample(size_t sample_size, size_t order, float edge_probability, size_t (*property)(NeighborhoodGraph), size_t* out);
+void binomial_graph_random_sample(size_t sample_size, size_t order, float edge_probability, size_t (*property)(NeighborhoodGraph), size_t* out, pXSR random_state);
 
 void print_graph(NeighborhoodGraph g);
 
