@@ -7,7 +7,7 @@
 #include <graph/graph.h>
 #include <combinations/xoshiro.h>
 
-#define SAMPLE_CHUNK_SIZE 2
+#define SAMPLE_CHUNK_SIZE 10
 
 struct sampledata {
   size_t order;
@@ -35,7 +35,7 @@ struct binomialrangethreadsize {
   size_t p_steps;
 } typedef binomialrangethreadsize;
 
-#define RANGE {-1, 0, 100, 1, 0.0, 1.0, 0.1};
+#define RANGE {-1, 0, 1000, 1, 0.0, 1.0, 0.01};
 
 #define START_BRL(range, i, j, o, p) \
   o = range.order_min; for (size_t i = 0; o < range.order_max; i++) { \
@@ -45,29 +45,23 @@ struct binomialrangethreadsize {
   p += range.p_step;}\
   o += range.order_step;}
 
-void print_binomial_range_to_csv(binomialrange range, binomialrange total_range) {
+void print_binomial_range_to_csv(binomialrange range, binomialrange total_range, FILE* out) {
   size_t row_length = (total_range.p_max - total_range.p_min) / total_range.p_step;
   size_t row_start = (range.order_min - total_range.order_min) / total_range.order_step;
   size_t col_start = (range.p_min - total_range.p_min) / range.p_step;
 
   size_t o;
-  float p;
-
-  printf(",");
-  p = range.p_min; for (size_t j = 0; p < range.p_max; j++) {
-    printf("%f, ", p);
-  p += range.p_step;}
-  printf("\n");
-
-  o = range.order_min; for (size_t i = 0; o < range.order_max; i++) {
-  printf("%lu, ", o); p = range.p_min; for (size_t j = 0; p < range.p_max; j++) {
+  float p; 
+  
+  fprintf(out, "order,edge probability,property\n");
+  START_BRL(range, i, j, o, p)
 
     size_t index = row_length * (row_start + i) + col_start + j;
 
-    printf("%lf, ", total_range.out[index].mean); 
+    fprintf(out, "%lu,%f,%lf\n", o,p,total_range.out[index].mean); 
 
-  p += range.p_step;}
-  printf("\n"); o += range.order_step;}
+  END_BRL(range, i, j, o, p)
+  
 }
 
 // Function to calculate the edge count of a graph
@@ -108,7 +102,8 @@ int thread_range(void* args) {
   sXSRPB paramB = { XSR_RANDOM_SM, 1 };
   pXSR random_state = fnAllocXSR(rand(), paramA, paramB);  // Initialize XSR with a seed
 
-  //printf("searching range %ld %ld %f %f (index range %ld to %ld out of %ld):\n", range.order_min, range.order_max, range.p_min, range.p_max, row_length * range.order_min / range.order_step + (size_t)(range.p_min / range.p_step), row_length * ((range.order_max / range.order_step) - 1) + (size_t)(range.p_max / range.p_step) - 1, total_range.out_range);
+  printf("searching range %ld %ld %f %f (index range %ld to %ld out of %ld):\n", range.order_min, range.order_max, range.p_min, range.p_max, row_length * range.order_min / range.order_step + (size_t)(range.p_min / range.p_step), row_length * ((range.order_max / range.order_step) - 1) + (size_t)(range.p_max / range.p_step) - 1, total_range.out_range);
+
   size_t o;
   float p;
   START_BRL(range, i, j, o, p)
@@ -123,14 +118,15 @@ int thread_range(void* args) {
       //printf("\t sampling position (%lu %f) into (%lu %lu) with mean %f\n", o, p, i, j, s.mean); 
 
   END_BRL(range, i, j, o, p)
-  
+
+  printf("finished range %ld %ld %f %f (index range %ld to %ld out of %ld):\n", range.order_min, range.order_max, range.p_min, range.p_max, row_length * range.order_min / range.order_step + (size_t)(range.p_min / range.p_step), row_length * ((range.order_max / range.order_step) - 1) + (size_t)(range.p_max / range.p_step) - 1, total_range.out_range);
 
   //de initialize the random numbers for this thread
   fnDelocXSR(random_state);
 }
 
-#define NUM_THREADS_VERTICAL 1
-#define NUM_THREADS_HORIZONTAL 1
+#define NUM_THREADS_VERTICAL 20
+#define NUM_THREADS_HORIZONTAL 20
 #define NUM_THREADS NUM_THREADS_VERTICAL * NUM_THREADS_HORIZONTAL
 
 int samplingdistribution(int argc, char** argv) {
@@ -169,7 +165,7 @@ int samplingdistribution(int argc, char** argv) {
     //printf("Thread %d: chunk start (order, p): (%zu, %zu)\n", i, row * t_range.order_steps, col * t_range.p_steps);
     //printf("Thread %d: chunk end (order, p): (%zu, %zu)\n", i, (row + 1) * t_range.order_steps, (col + 1) * t_range.p_steps);
 
-    binomialrange chunk = {
+    binomialrange range = {
       i, 
       total_range.order_min + row * t_range.order_steps * total_range.order_step, 
       total_range.order_min + (row + 1) * t_range.order_steps,
@@ -182,7 +178,7 @@ int samplingdistribution(int argc, char** argv) {
       rand()
     };
 
-    binomialrange args[2] = {chunk, total_range}; 
+    binomialrange args[2] = {range, total_range}; 
 
     // Debugging: Print the chunk size and data pointer
     //printf("Thread %d: chunk size (steps): %zu, data pointer: %p\n", i, t_chunk_size, &sample_points[i * t_chunk_size]);
@@ -195,7 +191,8 @@ int samplingdistribution(int argc, char** argv) {
     thrd_join(threads[i], NULL);
   }
 
-  print_binomial_range_to_csv(total_range, total_range);
+  FILE* file_out = fopen(argv[0], "w");
+  print_binomial_range_to_csv(total_range, total_range, file_out);
 
   
   free(total_range.out);
