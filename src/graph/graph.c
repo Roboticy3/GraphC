@@ -10,6 +10,7 @@
 #include <combinations/xoshiro.h>
 #include <collections/queue.h>
 #include <collections/array.h>
+#include <sample/sample.h>
 
 void add_neighbor(NeighborhoodGraph* g, size_t vertex, size_t neighbor) {
   Neighbor* start = g->neighborhoods[vertex];
@@ -234,27 +235,20 @@ void print_shortest_paths(ShortestPathGraph t) {
   }
 }
 
-void binomial_graph_random_sample(
-  size_t sample_size, 
-  size_t order, 
-  float edge_probability, 
-  size_t (*property)(NeighborhoodGraph), 
-  size_t* out,
-  pXSR random_state
-) {
+void binomial_graph_random_sample(sampledata params, sample* sample,size_t (*property)(NeighborhoodGraph)) {
 
-  Neighbor** neighborhoods = malloc(order * sizeof(Neighbor*));
-  Neighbor* neighbors = malloc(order * (order - 1) * sizeof(Neighbor));
+  Neighbor** neighborhoods = malloc(params.order * sizeof(Neighbor*));
+  Neighbor* neighbors = malloc(params.order * (params.order - 1) * sizeof(Neighbor));
 
-  for (int i = 0; i < sample_size; i++) { 
+  for (int i = 0; i < sample->len; i++) { 
 
-    for (int j = 0; j < order; j++) {
+    for (int j = 0; j < params.order; j++) {
       neighborhoods[j] = 0;
     }
 
-    NeighborhoodGraph g = {neighborhoods, order, neighbors, 0};
-    fill_graph_binomial(&g, edge_probability, random_state);
-    out[i] = (*property)(g);
+    NeighborhoodGraph g = {neighborhoods, params.order, neighbors, 0};
+    fill_graph_binomial(&g, params.p, params.random_state);
+    sample->x[i] = (*property)(g);
   }
 
   free(neighborhoods);
