@@ -7,7 +7,7 @@
 #include <graph/graph.h>
 #include <combinations/xoshiro.h>
 
-#define SAMPLE_CHUNK_SIZE 10
+#define SAMPLE_CHUNK_SIZE 10000
 
 struct sampledata {
   size_t order;
@@ -35,7 +35,7 @@ struct binomialrangethreadsize {
   size_t p_steps;
 } typedef binomialrangethreadsize;
 
-#define RANGE {-1, 0, 1000, 1, 0.0, 1.0, 0.01};
+#define RANGE {-1, 0, 100, 1, 0.0, 1.0, 0.001};
 
 #define START_BRL(range, i, j, o, p) \
   o = range.order_min; for (size_t i = 0; o < range.order_max; i++) { \
@@ -125,8 +125,8 @@ int thread_range(void* args) {
   fnDelocXSR(random_state);
 }
 
-#define NUM_THREADS_VERTICAL 20
-#define NUM_THREADS_HORIZONTAL 20
+#define NUM_THREADS_VERTICAL 10
+#define NUM_THREADS_HORIZONTAL 10
 #define NUM_THREADS NUM_THREADS_VERTICAL * NUM_THREADS_HORIZONTAL
 
 int samplingdistribution(int argc, char** argv) {
@@ -191,8 +191,13 @@ int samplingdistribution(int argc, char** argv) {
     thrd_join(threads[i], NULL);
   }
 
-  FILE* file_out = fopen(argv[0], "w");
-  print_binomial_range_to_csv(total_range, total_range, file_out);
+  FILE* file_out = fopen("out.csv", "w");
+  if (file_out) {
+    print_binomial_range_to_csv(total_range, total_range, file_out);
+  } else {
+    perror("Failed to open file");
+  }
+  fclose(file_out);
 
   
   free(total_range.out);
