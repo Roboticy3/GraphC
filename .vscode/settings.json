@@ -9,6 +9,8 @@
     "limits.h": "c",
     "stdlib.h": "c",
     "samplingdistribution.h": "c",
-    "random": "c"
+    "random": "c",
+    "__locale": "c",
+    "ios": "c"
   }
 }
