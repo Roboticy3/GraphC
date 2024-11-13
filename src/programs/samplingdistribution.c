@@ -44,12 +44,9 @@ void row_update_generator(size_t i, const char *table_name, char *insert_sql, vo
   binomialrange r = t_data.b_data.range;
   double mean = bind.out[i];
 
-  size_t stride = (r.p_max - r.p_min) / r.p_step;
-  size_t height = (r.order_max - r.order_min) / r.order_step;
-
-  sprintf(insert_sql, "UPDATE samples SET %s_%x = %ld, %s_%x = %f, %s_%x = %lf WHERE sample_id = %ld;", 
-    columns[0], t_data.id, r.order_min + (i / stride) * r.order_step,
-    columns[1], t_data.id, r.p_min + (i % stride) * r.p_step,
+  snprintf(insert_sql, MAX_INSERT_LEN, "UPDATE samples SET %s_%x = %ld, %s_%x = %f, %s_%x = %lf WHERE sample_id = %ld;", 
+    columns[0], t_data.id, get_row(r, i),
+    columns[1], t_data.id, get_col(r, i),
     columns[2], t_data.id, mean,
     i
   );
@@ -60,8 +57,9 @@ int sample_range_thread(void* any) {
   struct threaddata t_data = *(struct threaddata*)any;
 
   binomialrange r = t_data.b_data.range;
-  size_t stride = (r.p_max - r.p_min) / r.p_step;
-  size_t height = (r.order_max - r.order_min) / r.order_step;
+
+  size_t stride = R_STRIDE(r);
+  size_t height = R_HEIGHT(r);
   
   //allocate the samples and fill them
   double* out = malloc(sizeof(double) * stride * height);
@@ -134,8 +132,8 @@ int samplingdistribution(int argc, char** argv) {
 
   //the range this distribution will cover
   binomialrange r = RANGE;
-  size_t stride = (r.p_max - r.p_min) / r.p_step;
-  size_t height = (r.order_max - r.order_min) / r.order_step;
+  size_t stride = R_STRIDE(r);
+  size_t height = R_HEIGHT(r);
 
   insert_rows_batch(db, OUT_TABLE, INITIAL_COLUMN, stride * height);
 

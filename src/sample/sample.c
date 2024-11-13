@@ -56,3 +56,11 @@ void sample_range(binomialrangedata s, double* out) {
   fnDelocXSR(random_state);
   free(sample_register);
 }
+
+size_t get_row(binomialrange r, size_t i) {
+  return r.order_min + (i / R_STRIDE(r)) * r.order_step;
+}
+
+float get_col(binomialrange r, size_t i) {
+  return r.p_min + (i % (size_t)R_STRIDE(r)) * r.p_step;
+}

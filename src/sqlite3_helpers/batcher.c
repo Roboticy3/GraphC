@@ -44,7 +44,7 @@ int iterator_batch(sqlite3 *db, const char *table_name, size_t num_rows, void (*
             // Execute the current batch of inserts
             db_err = sqlite3_exec(db, sql, 0, 0, &err_msg);
             if (db_err != SQLITE_OK) {
-                printf("Failed to execute batch with error \"%s\" (error code %d).\n", sql, err_msg, db_err);
+                printf("Failed to execute batch \"\n%s\n\" with error \"%s\" (error code %d).\n", sql, err_msg, db_err);
                 sqlite3_free(err_msg);
                 sqlite3_exec(db, "ROLLBACK;", 0, 0, &err_msg);
                 return db_err;
@@ -63,7 +63,7 @@ int iterator_batch(sqlite3 *db, const char *table_name, size_t num_rows, void (*
     if (query_length > 0) {
         db_err = sqlite3_exec(db, sql, 0, 0, &err_msg);
         if (db_err != SQLITE_OK) {
-            printf("Failed to execute remaining rows with error \"%s\" (error code %d).\n", sql, err_msg, db_err);
+            printf("Failed to execute remaining rows \"\n%s\n\" with error \"%s\" (error code %d).\n", sql, err_msg, db_err);
             sqlite3_free(err_msg);
             sqlite3_exec(db, "ROLLBACK;", 0, 0, &err_msg);
             return db_err;

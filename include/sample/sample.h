@@ -47,4 +47,16 @@ void sample_range(binomialrangedata s, double* out);
 
 void sample_point(sampledata params, sample* out);
 
+struct dimension {
+  size_t stride;
+  size_t height;
+} typedef dimension;
+
+#define R_STRIDE(r) ((r.p_max - r.p_min) / r.p_step)
+#define R_HEIGHT(r) ((r.order_max - r.order_min) / r.order_step)
+
+size_t get_row(binomialrange r, size_t i);
+
+float get_col(binomialrange r, size_t i);
+
 #endif 
