@@ -2,6 +2,7 @@
 #include <stddef.h>
 #include <combinations/xoshiro.h>
 #include <graph/graph.h>
+#include <stdio.h>
 
 // Function to calculate the edge count of a graph
 size_t property(NeighborhoodGraph g) {
@@ -21,7 +22,7 @@ void sample_point(sampledata params, sample* out) {
     out->mean = mean;
 }
 
-void sample_range(binomialrangedata s) {
+void sample_range(binomialrangedata s, double* out) {
 
   binomialrange r = s.range;
   size_t vertical_steps = (r.order_max - r.order_min) / r.order_step;
@@ -32,10 +33,10 @@ void sample_range(binomialrangedata s) {
   sXSRPB paramB = { XSR_RANDOM_SM, 1 };
   pXSR random_state = fnAllocXSR(s.seed, paramA, paramB);
 
+  memset(out, 0, sizeof(double) * s.sample_count);
   
   //printf("step sizes: %lu %f\n", total_range.order_step, total_range.p_step);
 
-  size_t* out = (size_t*)calloc(table_size, sizeof(size_t));
   size_t* sample_register = malloc(s.sample_count * sizeof(size_t));
   sample sample = {sample_register, s.sample_count, 0.0};
 
@@ -49,11 +50,9 @@ void sample_range(binomialrangedata s) {
       random_state, 
     };
     sample_point(data, &sample);
-    //printf("mean: %lf\n", s.mean);
-    out[i] += sample.mean / (double)s.range_count;
+    out[i] = sample.mean / (double)s.range_count;
   }
 
   fnDelocXSR(random_state);
   free(sample_register);
-  free(out);
 }

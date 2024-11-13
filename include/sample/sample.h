@@ -3,6 +3,8 @@
 
 #include <stddef.h>
 #include <combinations/xoshiro.h>
+#include <threads.h>
+#include <sqlite3.h>
 
 struct sample {
   size_t* x;
@@ -41,7 +43,7 @@ struct binomialrangedata {
   p += range.p_step;}\
   o += range.order_step;}
 
-void sample_range(binomialrangedata s);
+void sample_range(binomialrangedata s, double* out);
 
 void sample_point(sampledata params, sample* out);
 

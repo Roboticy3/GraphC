@@ -10,7 +10,6 @@ project(GraphC)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-
 set(CMAKE_CXX_FLAGS "-Wall -Wextra -O3")
 
 #define the source code directories, "include" is for headers and "src" is for implementation
@@ -28,3 +27,5 @@ file(GLOB_RECURSE SRC_FILES
 
 #include all the source code files to generate an executable
 add_executable(GraphC ${SRC_FILES})
+
+target_link_libraries(GraphC PRIVATE sqlite3)
