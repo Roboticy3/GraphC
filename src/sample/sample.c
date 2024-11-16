@@ -3,14 +3,10 @@
 #include <combinations/xoshiro.h>
 #include <graph/graph.h>
 #include <stdio.h>
-
-// Function to calculate the edge count of a graph
-size_t property(NeighborhoodGraph g) {
-    return g.edges;
-}
+#include <math.h>
 
 // Thread function to perform partial sampling
-void sample_point(sampledata params, sample* out) {
+void sample_point(sampledata params, sample* out, size_t (*property)(NeighborhoodGraph g)) {
 
     binomial_graph_random_sample(params, out, property);
 
@@ -22,7 +18,7 @@ void sample_point(sampledata params, sample* out) {
     out->mean = mean;
 }
 
-void sample_range(binomialrangedata s, double* out) {
+void sample_range(binomialrangedata s, double* out, size_t (*property)(NeighborhoodGraph g)) {
 
   binomialrange r = s.range;
   size_t vertical_steps = (r.order_max - r.order_min) / r.order_step;
@@ -49,7 +45,7 @@ void sample_range(binomialrangedata s, double* out) {
       s.sample_count,
       random_state, 
     };
-    sample_point(data, &sample);
+    sample_point(data, &sample, property);
     out[i] = sample.mean / (double)s.range_count;
   }
 

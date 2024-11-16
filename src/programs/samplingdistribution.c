@@ -9,6 +9,7 @@
 #include <combinations/xoshiro.h>
 #include <sample/sample.h>
 #include <sqlite3_helpers/batcher.h>
+#include <combinations/choose.h>
 
 struct threadmutexdata {
   sqlite3* db;
@@ -17,11 +18,12 @@ struct threadmutexdata {
 struct threaddata {
   int id;
   binomialrangedata b_data;
+  size_t (*property)(NeighborhoodGraph g);
   mtx_t* mutex;
   struct threadmutexdata m_data;
 };
 
-#define SAMPLES_PER_THREAD (size_t)20
+#define SAMPLES_PER_THREAD (size_t)1
 #define THREAD_COUNT 10
 
 #define RANGE {-0, 100, 1, 0.0, 1.0, 0.01};
@@ -52,6 +54,11 @@ void row_update_generator(size_t i, const char *table_name, char *insert_sql, vo
   );
 }
 
+// Function to calculate the edge count of a graph
+size_t default_property(NeighborhoodGraph g) {
+  return choose(g.order, 2);
+}
+
 int sample_range_thread(void* any) {
 
   struct threaddata t_data = *(struct threaddata*)any;
@@ -64,7 +71,7 @@ int sample_range_thread(void* any) {
   //allocate the samples and fill them
   double* out = malloc(sizeof(double) * stride * height);
 
-  sample_range(t_data.b_data, out);
+  sample_range(t_data.b_data, out, t_data.property);
 
   //pipe the samples to an sqlite database in the running directory
   mtx_lock(t_data.mutex);
@@ -164,7 +171,7 @@ int samplingdistribution(int argc, char** argv) {
     binomialrangedata b_data = {rand(), r, SAMPLES_PER_THREAD, THREAD_COUNT};
     //the mutex section of the thread data stores only pointers, and should only be accessed under lock
     struct threadmutexdata m_data = {db};
-    struct threaddata t_data = {t, b_data, &mutex, m_data};
+    struct threaddata t_data = {t, b_data, default_property, &mutex, m_data};
     int err = thrd_create(&threads[t], sample_range_thread, &t_data);
     if (err) {
       printf("failed to create thread %d with error %d, lost %lu samples.\n", t, err, SAMPLES_PER_THREAD);

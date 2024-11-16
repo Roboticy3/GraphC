@@ -5,6 +5,7 @@
 #include <combinations/xoshiro.h>
 #include <threads.h>
 #include <sqlite3.h>
+#include <graph/graph.h>
 
 struct sample {
   size_t* x;
@@ -43,9 +44,9 @@ struct binomialrangedata {
   p += range.p_step;}\
   o += range.order_step;}
 
-void sample_range(binomialrangedata s, double* out);
+void sample_range(binomialrangedata s, double* out, size_t (*property)(NeighborhoodGraph g));
 
-void sample_point(sampledata params, sample* out);
+void sample_point(sampledata params, sample* out, size_t (*property)(NeighborhoodGraph g));
 
 struct dimension {
   size_t stride;
@@ -58,5 +59,7 @@ struct dimension {
 size_t get_row(binomialrange r, size_t i);
 
 float get_col(binomialrange r, size_t i);
+
+void binomial_graph_random_sample(sampledata params, sample* sample,size_t (*property)(NeighborhoodGraph));
 
 #endif 

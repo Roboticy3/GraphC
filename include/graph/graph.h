@@ -5,7 +5,6 @@
 #include <collections/array.h>
 #include <stdint.h>
 #include <combinations/xoshiro.h>
-#include <sample/sample.h>
 
 struct Neighbor {
   size_t neighbor;
@@ -43,8 +42,6 @@ size_t get_height(ShortestPathGraph t, size_t v);
 size_t lca(ShortestPathGraph t, size_t a, size_t b);
 
 void get_cycle(ShortestPathGraph t, PairEdge e, array* out);
-
-void binomial_graph_random_sample(sampledata params, sample* sample,size_t (*property)(NeighborhoodGraph));
 
 void print_graph(NeighborhoodGraph g);
 

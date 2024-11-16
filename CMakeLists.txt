@@ -10,7 +10,7 @@ project(GraphC)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-set(CMAKE_CXX_FLAGS "-Wall -Wextra -O3")
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -O3 ")
 
 #define the source code directories, "include" is for headers and "src" is for implementation
 include_directories(
