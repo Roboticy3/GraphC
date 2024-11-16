@@ -2,3 +2,6 @@ build*/*
 *.csv
 *.db
 *.png
+CMakeCache.txt
+CMakeFiles/*
+MakeFile
