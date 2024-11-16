@@ -6,8 +6,8 @@ There are 5 super-lightweight libraries at play here for others to use:
  - graph, with the `NeighborhoodGraph` type for directed graphs and the `ShortestPathGraph` type for representing shortest paths.
  - choose, with the `choose_i` function for enumerating $k$-tuples on $[n]$ and `choose` for computing ${n \choose k}$.
  - sample, with functions for generically sampling ranges of random graphs.
- - [https://www.sqlite.org/capi3ref.html](sqlite3) and sqlite3_helpers, with functions for generically executing batch sqlite3 transactions
- - [https://github.com/Lima-X/XSRlib](xoshiro)
+ - [sqlite3](https://www.sqlite.org/capi3ref.html) and sqlite3_helpers, with functions for generically executing batch sqlite3 transactions
+ - [xoshiro](https://github.com/Lima-X/XSRlib)
 
 # To run with default settings
 
