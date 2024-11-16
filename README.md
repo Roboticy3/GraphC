@@ -15,6 +15,12 @@ Pull the code and run `cmake`, then run `make`. Then, to visualize the output, r
 
 I haven't tested this outside of my own laptop on WSL and my school's servers (Ubuntu), so open an issue if it doesn't work for you! Especially for non-unix users.
 
+# To modify parameters
+
+The size of the sample is parametrized by the define directives in samplingdistribution.c and samplingdistribution.h, including but not limited to the number of threads, the number of samples to make at each point in the range on each thread, and the range in terms of min order, max order, order step, min probability, and so on. Change these definitions and recompile to use them.
+
 # Todo
 
 Implement some more interesting algorithms to sample graphs on.
+
+(Optional) Change the define directives to command-line arguments for better parameterization.
