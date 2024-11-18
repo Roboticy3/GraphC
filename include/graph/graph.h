@@ -23,30 +23,27 @@ struct PairEdge {
   size_t right;
 } typedef PairEdge;
 
-struct ShortestPathGraph {
+struct Forest {
   size_t* paths;
   size_t order;
-  size_t center;
-  PairEdge* cycles;
-  size_t cycle_count;
-} typedef ShortestPathGraph;
+} typedef Forest;
 
 void add_neighbor(NeighborhoodGraph* g, size_t vertex, size_t edge);
 
 void fill_graph_binomial(NeighborhoodGraph* g, float p, pXSR seed);
 
-void bfs(NeighborhoodGraph g, ShortestPathGraph* t);
+void bfs(NeighborhoodGraph g, Forest* t);
 
-size_t get_height(ShortestPathGraph t, size_t v);
+size_t get_height(Forest t, size_t v);
 
-size_t lca(ShortestPathGraph t, size_t a, size_t b);
+size_t lca(Forest t, size_t a, size_t b);
 
-void get_cycle(ShortestPathGraph t, PairEdge e, array* out);
+void get_cycle(Forest t, PairEdge e, array* out);
 
 void print_graph(NeighborhoodGraph g);
 
 void print_graph_raw(NeighborhoodGraph g);
 
-void print_shortest_paths(ShortestPathGraph t);
+void print_forest(Forest t);
 
 #endif

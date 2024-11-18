@@ -16,4 +16,10 @@ int queue_push(queue* q, void* content, size_t bytes);
 
 int queue_pop(queue* q, void* output, size_t bytes);
 
+void print_queue(queue q);
+
+queue qalloc(size_t bytes);
+
+void qfree(queue q);
+
 #endif

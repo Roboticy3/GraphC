@@ -1,6 +1,8 @@
 
 #include <collections/queue.h>
 #include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 size_t queue_size(queue q) {
   if (q.back >= q.front) {
@@ -86,4 +88,37 @@ int queue_pop(queue* q, void* output, size_t bytes) {
   return 0;
 
 
+}
+
+void print_queue(queue q) {
+
+  printf("[");
+  for (int i = 0; i < q.capacity; i++) {
+
+    if (q.front >= q.back) {
+      if (i < q.front && i >= q.back) {
+        printf("?");
+      } else printf("%x", q.buffer[i]);
+    }
+    else {
+      if (i < q.front || i >= q.back) {
+        printf("?");
+      } else printf("%x", q.buffer[i]);
+    }
+  }
+
+  printf("]\n");
+}
+
+queue qalloc(size_t bytes) {
+  queue q;
+  q.buffer = malloc(bytes);
+  q.capacity = bytes;
+  q.front = 0;
+  q.back = 0;
+  return q;
+}
+
+void qfree(queue q) {
+  free(q.buffer);
 }

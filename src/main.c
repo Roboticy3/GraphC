@@ -6,5 +6,5 @@
 #include <programs/randomgraph.h>
 
 int main(int argc, char** argv) {
-  samplingdistribution(argc, argv);
+  randomgraph(argc, argv);
 }

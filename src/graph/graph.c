@@ -60,66 +60,66 @@ void fill_graph_binomial(NeighborhoodGraph* g, float p, pXSR random_state) {
 }
 
 
-void bfs(NeighborhoodGraph g, ShortestPathGraph* t) {
-  //vertex queue
-  queue q;
-  //allocate space for every vertex in the graph
-  q.buffer = calloc(g.order, sizeof(size_t));
-  q.capacity = g.order * sizeof(size_t);
-  //add the starting vertex
-  queue_push(&q, &(t->center), sizeof(size_t));
+void bfs(NeighborhoodGraph g, Forest* t) {
 
   //distance array
   size_t* d = malloc(g.order * sizeof(size_t));
   //fill with the maximum possible distance. -1 = size_t max
-  for (int i = 0; i < g.order; i++) d[i] = -1;
-  //set the distance of the starting vertex to 0
-  d[t->center] = 0;
+  for (size_t i = 0; i < g.order; i++) d[i] = -1;
 
-  //while there are vertices in the queue,
-  while (queue_size(q)) {
-    size_t v;
-    //pop the oldest vertex in the queue, v, and look through its neighbors
-    queue_pop(&q, &v, sizeof(size_t));
-    for (Neighbor* n = g.neighborhoods[v]; n; n = n->next) {
-      //if the distance of a neighbor has not been set yet, it has yet to be explored, so add it to the queue
-      if (d[n->neighbor] == -1) {
-        queue_push(&q, &(n->neighbor), sizeof(size_t));    
-      } 
-      //otherwise, we've run into a neighbor we've seen before, implying a cycle
-      else if (n->neighbor != t->paths[v]) {
-        //otherwise, we have found a cycle
-        PairEdge c = {n->neighbor, v};
-        t->cycles[t->cycle_count] = c;
-        t->cycle_count++;
-      }
+  //clear the vertices from t
+  for (size_t i = 0; i < t->order; i++) t->paths[i] = -1;
 
-      //if the distance to the neighbor through v is better than its current distance, update its entry in the distance array
-      //since the "default" distance is maximum, finding a neighbor that hasn't been explored yet will always update its distance
-      if (d[n->neighbor] > d[v] + 1) {
-        d[n->neighbor] = d[v] + 1;
-        //this is also when the shortest path to that vertex is updated.
-        t->paths[n->neighbor] = v;
+  for (size_t component = 0; component < g.order; component++) {
+
+    //vertex queue
+    queue q = qalloc(sizeof(size_t) * g.order);
+    queue_push(&q, &component, sizeof(size_t));
+
+    if (d[component] != -1) {
+      continue;
+    }
+
+    d[component] = 0;
+
+    //while there are vertices in the queue,
+    while (queue_size(q)) {
+      size_t v;
+      //pop the oldest vertex in the queue, v, and look through its neighbors
+      queue_pop(&q, &v, sizeof(size_t));
+      for (Neighbor* n = g.neighborhoods[v]; n; n = n->next) {
+        //if the distance of a neighbor has not been set yet, it has yet to be explored, so add it to the queue
+        if (d[n->neighbor] == -1) {
+          queue_push(&q, &(n->neighbor), sizeof(size_t));    
+        }
+
+        //if the distance to the neighbor through v is better than its current distance, update its entry in the distance array
+        //since the "default" distance is maximum, finding a neighbor that hasn't been explored yet will always update its distance
+        if (d[n->neighbor] > d[v] + 1) {
+          d[n->neighbor] = d[v] + 1;
+          //this is also when the shortest path to that vertex is updated.
+          t->paths[n->neighbor] = v;
+        }
       }
     }
+
+    qfree(q);
   }
 
-  //free the queue and distance array
-  free(q.buffer);
   free(d);
 }
 
-size_t get_height(ShortestPathGraph t, size_t v) {
+size_t get_height(Forest t, size_t v) {
   size_t height = 0;
   if (t.paths[v] == -1) return -1;
-  while (v != t.center) {
+  while (v != -1) {
     v = t.paths[v];
     height++;
   }
   return height;
 }
 
-size_t lca(ShortestPathGraph t, size_t a, size_t b) {
+size_t lca(Forest t, size_t a, size_t b) {
   //get the height of both vertices.
   size_t height_a = get_height(t, a), height_b = get_height(t, b);
   //printf("found heights (%ld %ld)\n", height_a, height_b);
@@ -155,8 +155,8 @@ size_t lca(ShortestPathGraph t, size_t a, size_t b) {
   return a;
 }
 
-//the smallest cycle containing an edge e and the root of t
-void get_cycle(ShortestPathGraph t, PairEdge e, array* out) {
+//the smallest cycle containing an edge e and a root of t
+void get_cycle(Forest t, PairEdge e, array* out) {
   size_t* block = (size_t*)out->block;
 
   //preserve the starting vertex to add onto the end of the cycle as the end delimiter
@@ -227,11 +227,10 @@ void print_graph_raw(NeighborhoodGraph g) {
   printf("\n");
 }
 
-void print_shortest_paths(ShortestPathGraph t) {
-  printf("shortest paths from %ld:\n", t.center);
+void print_forest(Forest t) {
   for (size_t i = 0; i < t.order; i++) {
     size_t n = t.paths[i];
-    printf("[%ld]%s -> %ld\n", i, i == t.center ? "*":"", n);
+    printf("[%ld]%s -> %ld\n", i, t.paths[i] == -1 ? "*":"", n);
   }
 }
 
