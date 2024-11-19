@@ -1,16 +1,15 @@
 
 #include <stddef.h>
 #include <collections/array.h>
+#include <stdio.h>
 
-void reverse(array arr, size_t item_width){
-  void* reg = malloc(item_width);
-  for (size_t i = 0; i < arr.length / 2; i++) {
-    void* back = arr.block + i * item_width;
-    void* front = arr.block + item_width * (arr.length - i - 1);
-    memcpy(reg, back, item_width);
-    memcpy(back, front, item_width);
-    memcpy(front, reg, item_width);
+void print_array(array arr, size_t item_width) {
+  printf("[");
+  for (size_t i = 0; i < arr.length; i++) {
+    printf("%x", arr.block[i]);
+    if (((i + 1) % item_width) == 0) {
+      printf(", ");
+    }
   }
-
-  free(reg);
+  printf("]\n");
 }

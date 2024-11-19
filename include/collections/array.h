@@ -11,8 +11,6 @@ struct array {
   size_t capacity;
 } typedef array;
 
-void reverse(array arr, size_t item_width);
-
-void print_arr(array arr);
+void print_array(array arr, size_t item_width);
 
 #endif

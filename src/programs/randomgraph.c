@@ -9,7 +9,7 @@
 #include <limits.h>
 
 #define G_ORDER 100
-#define G_MAX_EDGES 4950 * 2
+#define G_MAX_EDGES 4590 * 2
 
 
 int randomgraph() {
@@ -39,6 +39,43 @@ int randomgraph() {
     printf("shortest path forest:\n");
 
     print_forest(f);
+
+    int cycle_found = 0;
+    array cycle_buffer = {0};
+    cycle_buffer.block = malloc(sizeof(size_t) * g.order);
+    cycle_buffer.capacity = sizeof(size_t) * g.order;
+    for (size_t i = 0; i < g.order; i++) {
+      Neighbor* n = g.neighborhoods[i];
+      while (n) {
+        PairEdge e = {i, n->neighbor};
+        //printf("checking cycle at (%ld %ld)\n", e.left, e.right);
+        cycle_found = (get_cycle(f, e, &cycle_buffer) == 0);
+
+        if (cycle_found) {
+          //printf("cycle found: ");
+          //print_array(cycle_buffer, sizeof(size_t));
+          break;
+        }
+
+        n = n->next;
+      }
+      if (cycle_found) break;
+    }
+
+    if (cycle_buffer.length > sizeof(size_t)) {
+      NeighborhoodGraphMinor m = {g, malloc(sizeof(size_t) * g.order)};
+      for (int i = 0; i < g.order; i++) {
+        m.hierarchy[i] = -1;
+      }
+
+      contract((size_t*)cycle_buffer.block, cycle_buffer.length / sizeof(size_t) - 1, &m);
+
+      //print_hierarchy(m);
+
+      free(m.hierarchy);
+    }
+
+    free(cycle_buffer.block);
   }
 
   fnDelocXSR(random_state);

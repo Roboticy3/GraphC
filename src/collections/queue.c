@@ -109,16 +109,3 @@ void print_queue(queue q) {
 
   printf("]\n");
 }
-
-queue qalloc(size_t bytes) {
-  queue q;
-  q.buffer = malloc(bytes);
-  q.capacity = bytes;
-  q.front = 0;
-  q.back = 0;
-  return q;
-}
-
-void qfree(queue q) {
-  free(q.buffer);
-}

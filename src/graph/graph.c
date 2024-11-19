@@ -73,10 +73,15 @@ void bfs(NeighborhoodGraph g, Forest* t) {
   for (size_t component = 0; component < g.order; component++) {
 
     //vertex queue
-    queue q = qalloc(sizeof(size_t) * g.order);
+    queue q;
+    q.buffer = malloc(sizeof(size_t) * g.order);
+    q.capacity = sizeof(size_t) * g.order;
+    q.front = 0;
+    q.back = 0;
     queue_push(&q, &component, sizeof(size_t));
 
     if (d[component] != -1) {
+      free(q.buffer);
       continue;
     }
 
@@ -92,7 +97,6 @@ void bfs(NeighborhoodGraph g, Forest* t) {
         if (d[n->neighbor] == -1) {
           queue_push(&q, &(n->neighbor), sizeof(size_t));    
         }
-
         //if the distance to the neighbor through v is better than its current distance, update its entry in the distance array
         //since the "default" distance is maximum, finding a neighbor that hasn't been explored yet will always update its distance
         if (d[n->neighbor] > d[v] + 1) {
@@ -103,7 +107,7 @@ void bfs(NeighborhoodGraph g, Forest* t) {
       }
     }
 
-    qfree(q);
+    free(q.buffer);
   }
 
   free(d);
@@ -111,8 +115,7 @@ void bfs(NeighborhoodGraph g, Forest* t) {
 
 size_t get_height(Forest t, size_t v) {
   size_t height = 0;
-  if (t.paths[v] == -1) return -1;
-  while (v != -1) {
+  while (t.paths[v] != -1) {
     v = t.paths[v];
     height++;
   }
@@ -137,7 +140,8 @@ size_t lca(Forest t, size_t a, size_t b) {
   //printf("sorted (%ld %ld)\n", a, b);
   
   //trace a to the same height as b
-  while (height_a > height_b) {
+  while (height_a > height_b && a != -1) {
+    //printf("reading slot %ld out of %ld\n", a, t.order);
     a = t.paths[a];
     height_a--;
     //printf("%ld %ld\n", a, b);
@@ -146,57 +150,125 @@ size_t lca(Forest t, size_t a, size_t b) {
   //printf("normalized (%ld %ld)\n", a, b);
 
   //now trace each vertex up the tree until the ancestor is found.
-  while (a != b) {
+  while (a != b && a != -1) {
+    //printf("reading slot %ld out of %ld\n", a, t.order);
     a = t.paths[a];
+    //printf("reading slot %ld out of %ld\n", b, t.order);
     b = t.paths[b];
-    //printf("%ld %ld\n", higher, lower);
+    //printf("%ld %ld\n", a, b);
   }
 
   return a;
 }
 
-//the smallest cycle containing an edge e and a root of t
-void get_cycle(Forest t, PairEdge e, array* out) {
-  size_t* block = (size_t*)out->block;
+//this thing is starting to piss me off
+// The smallest cycle containing an edge e and a root of t
+int get_cycle(Forest t, PairEdge e, array* out) {
+    size_t start = e.left;
+    size_t a = lca(t, e.left, e.right);
 
-  //preserve the starting vertex to add onto the end of the cycle as the end delimiter
-  size_t start = e.left;
-  //get the lowest common ancestor of the endpoints of e
-  size_t a = lca(t, e.left, e.right);
-  //printf("forming cycle through %ld %ld %ld\n", e.left, a, e.right);
-  //if one end of e was the ancestor of the other, e is not in a cycle
-  if (a == e.left || a == e.right){
-    block[0] = e.left;
-    return;
-  }
+    //printf("Cycle seeds e: (%ld %ld, %ld) lca: %ld\n",start, e.left, e.right, a);
 
-  //otherwise, walk down to the lca from one endpoint, reverse that, then concatenate the walk from the other endpoint to define a cycle
-  out->length = 0;
-  while (e.left != a) {
-    block[out->length] = e.left;
-    //printf("set %ld to %ld\n", out->length, e.left);
+    // If one endpoint is the ancestor of the other, not a cycle
+    if (a == e.left || a == e.right) {
+      //fprintf(stderr, "Error: Edge is not in a cycle.\n");
+      out->length = 0;
+      return 1;
+    }
+
+    size_t* block = (size_t*)out->block;
+    size_t st_len = 0;
+
+    // Walk down the path from the first endpoint to the LCA and store it in block
+    size_t first_path_start = st_len;
+    while (e.left != a) {
+    if (st_len >= out->capacity / sizeof(size_t)) {
+        fprintf(stderr, "Error: Cycle exceeds output array capacity.\n");
+        return -1;
+    }
+    block[st_len++] = e.left;
     e.left = t.paths[e.left];
-    out->length++;
+    }
+
+    // Reverse the first path in-place
+    size_t first_path_end = st_len;
+    for (size_t i = 0; i < (first_path_end - first_path_start) / 2; ++i) {
+        size_t temp = block[first_path_start + i];
+        block[first_path_start + i] = block[first_path_end - 1 - i];
+        block[first_path_end - 1 - i] = temp;
+    }
+
+
+    // Add the LCA to the cycle
+    if (st_len >= out->capacity / sizeof(size_t)) {
+        fprintf(stderr, "Error: Cycle exceeds output array capacity.\n");
+        return -1;
+    }
+    block[st_len++] = a;
+
+    // Append the path from the second endpoint to the LCA
+    while (e.right != a) {
+        if (st_len >= out->capacity / sizeof(size_t)) {
+            fprintf(stderr, "Error: Cycle exceeds output array capacity.\n");
+            return -1;
+        }
+        block[st_len++] = e.right;
+        e.right = t.paths[e.right];
+    }
+
+    // Close the cycle by appending the starting vertex
+    if (st_len >= out->capacity / sizeof(size_t)) {
+        fprintf(stderr, "Error: Cycle exceeds output array capacity.\n");
+        return -1;
+    }
+    block[st_len++] = start;
+
+    //for some reason this shit doesn't work when a == 0. Chat really struggled with that one so... hack fix
+    //tbh this is far from the most egregious thing in this project, but I'm on a schedule and in over my head
+    if (a == 0) {
+      for (size_t i = 0; i < st_len - 1; i++) {
+        block[i] = block[i + 1];
+      }
+      block[st_len - 1] = 0;
+    }
+
+    // Validate the cycle is closed
+    if (block[0] != block[st_len - 1]) {
+        st_len--;
+        if (block[0] != block[st_len - 1]) {
+          fprintf(stderr, "Error: Cycle is malformed. Contents: ");
+        for (size_t i = 0; i < st_len; ++i) {
+            fprintf(stderr, "%zu ", block[i]);
+        }
+        fprintf(stderr, "\n");
+        return -1;
+        }
+        
+    }
+
+    out->length = st_len * sizeof(size_t);
+    return 0;
+}
+
+size_t root(size_t* paths, size_t from) {
+  size_t v = from;
+  while (paths[v] != -1) {
+    v = paths[v];
   }
+  return v;
+}
 
-  //reverse the first section
-  //reverse(out, sizeof(size_t));
-  block[out->length] = a;
-  //printf("(common ancestor) set %ld to %ld\n", out->length, a);
-  out->length++;
+void contract(size_t* vertices, size_t vertices_count, NeighborhoodGraphMinor* g) {
+  if (!vertices_count) return;
 
-  //concatenate the other half of the cycle
-  while (e.right != a) {
-    block[out->length] = e.right;
-    //printf("set %ld to %ld\n", out->length, e.right);
-    e.right = t.paths[e.right];
-    out->length++;
+  //select the supervertex of the first vertex
+  //then, contract the rest of the vertices to it
+  size_t u = root(g->hierarchy, vertices[0]);
+  for (size_t i = 1; i < vertices_count; i++) {
+    size_t v = root(g->hierarchy, vertices[i]);
+    printf("contracting %ld from %ld into %ld\n", vertices[i], v, u);
+    g->hierarchy[v] = u;
   }
-
-  block[out->length] = start;
-  out->length++;
-  
-  
 }
 
 void print_graph(NeighborhoodGraph graph) {
@@ -252,4 +324,33 @@ void binomial_graph_random_sample(sampledata params, sample* sample,size_t (*pro
 
   free(neighborhoods);
   free(neighbors);
+}
+
+//you can tell when I'm desparate enough to use AI because GPT uses 4-spaces to indent and I use 2.
+//took some edits, but definitely sped things up
+void print_hierarchy(NeighborhoodGraphMinor g) {
+  //for each vertex in the original graph
+  for (size_t i = 0; i < g.original.order; ++i) {
+        //print out the relationships of the original vertex to its supervertex/ces
+        size_t current = i;
+        size_t j = 0;
+        int first = 1; 
+        while (g.hierarchy[current] != -1 && j < 20) {
+            if (first) {
+                printf("(%zu)", current);
+                first = 0;
+            } else {
+                printf(" -> (%zu)", current);
+            }
+            current = g.hierarchy[current];
+            j++;
+        }
+        //then print out the vertex itself
+        if (first) {
+          printf("[%lu]\n", current);
+        }
+        else {
+          printf(" -> [%zu]\n", current);
+        }
+    }
 }
