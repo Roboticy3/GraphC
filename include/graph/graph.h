@@ -7,7 +7,7 @@
 #include <combinations/xoshiro.h>
 
 struct Neighbor {
-  size_t neighbor;
+  size_t vertex;
   struct Neighbor* next;
 } typedef Neighbor;
 
@@ -33,7 +33,14 @@ struct NeighborhoodGraphMinor {
   size_t* hierarchy;
 } typedef NeighborhoodGraphMinor;
 
+struct FatNeighbor {
+  size_t vertex;
+  Neighbor* neighbor;
+} typedef FatNeighbor;
+
 void add_neighbor(NeighborhoodGraph* g, size_t vertex, size_t edge);
+
+int has_edge(NeighborhoodGraph g, PairEdge e);
 
 void fill_graph_binomial(NeighborhoodGraph* g, float p, pXSR seed);
 
@@ -47,7 +54,11 @@ int get_cycle(Forest t, PairEdge e, array* out);
 
 void contract_single(size_t from, size_t to, NeighborhoodGraphMinor* g);
 
+size_t root(size_t* paths, size_t from);
+
 void contract(size_t* vertices, size_t vertices_count, NeighborhoodGraphMinor* g);
+
+FatNeighbor next_neighbor(FatNeighbor n, NeighborhoodGraphMinor g);
 
 void print_graph(NeighborhoodGraph g);
 
@@ -56,5 +67,7 @@ void print_graph_raw(NeighborhoodGraph g);
 void print_forest(Forest t);
 
 void print_hierarchy(NeighborhoodGraphMinor g);
+
+void print_minor_path(NeighborhoodGraphMinor g, NeighborhoodGraph p, FatNeighbor start);
 
 #endif

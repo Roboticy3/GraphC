@@ -20,6 +20,16 @@ void add_neighbor(NeighborhoodGraph* g, size_t vertex, size_t neighbor) {
   g->edges++;
 }
 
+int has_edge(NeighborhoodGraph g, PairEdge e) {
+  Neighbor* n = g.neighborhoods[e.left];
+  while (n) {
+    if (n->vertex == e.right) return 1;
+    n = n->next;
+  }
+
+  return 0;
+}
+
 void fill_graph_binomial(NeighborhoodGraph* g, float p, pXSR random_state) {
 
     size_t num;
@@ -94,15 +104,15 @@ void bfs(NeighborhoodGraph g, Forest* t) {
       queue_pop(&q, &v, sizeof(size_t));
       for (Neighbor* n = g.neighborhoods[v]; n; n = n->next) {
         //if the distance of a neighbor has not been set yet, it has yet to be explored, so add it to the queue
-        if (d[n->neighbor] == -1) {
-          queue_push(&q, &(n->neighbor), sizeof(size_t));    
+        if (d[n->vertex] == -1) {
+          queue_push(&q, &(n->vertex), sizeof(size_t));    
         }
         //if the distance to the neighbor through v is better than its current distance, update its entry in the distance array
         //since the "default" distance is maximum, finding a neighbor that hasn't been explored yet will always update its distance
-        if (d[n->neighbor] > d[v] + 1) {
-          d[n->neighbor] = d[v] + 1;
+        if (d[n->vertex] > d[v] + 1) {
+          d[n->vertex] = d[v] + 1;
           //this is also when the shortest path to that vertex is updated.
-          t->paths[n->neighbor] = v;
+          t->paths[n->vertex] = v;
         }
       }
     }
@@ -271,13 +281,28 @@ void contract(size_t* vertices, size_t vertices_count, NeighborhoodGraphMinor* g
   }
 }
 
+FatNeighbor next_neighbor(FatNeighbor n, NeighborhoodGraphMinor g) {
+  if (n.neighbor && n.neighbor->next) {
+    return (FatNeighbor){n.vertex, n.neighbor->next};
+  }
+
+  size_t r = root(g.hierarchy, n.vertex);
+  for (size_t i = n.vertex + 1; i < g.original.order; i++) {
+    if (root(g.hierarchy, i) == r) {
+      if (g.original.neighborhoods[i]) return (FatNeighbor){i, g.original.neighborhoods[i]};
+    }
+  }
+
+  return (FatNeighbor){-1, 0};
+}
+
 void print_graph(NeighborhoodGraph graph) {
   for (size_t i = 0; i < graph.order; i++) {
     Neighbor* n = graph.neighborhoods[i];
     printf("[%ld]", i);
     int i = 0;
     while (n < graph.neighbors + graph.edges && n >= graph.neighbors) {
-      printf(" -> %ld", n->neighbor);
+      printf(" -> %ld", n->vertex);
       n = n->next;
       //printf("%ld\n",n);
     }
@@ -293,7 +318,7 @@ void print_graph_raw(NeighborhoodGraph g) {
   printf("\n");
 
   for (size_t i = 0; i< g.edges; i++) {
-    printf("(%ld : (%ld : %ld)), ", i, g.neighbors[i].neighbor, g.neighbors[i].next - g.neighbors);
+    printf("(%ld : (%ld : %ld)), ", i, g.neighbors[i].vertex, g.neighbors[i].next - g.neighbors);
   }
 
   printf("\n");
@@ -347,10 +372,53 @@ void print_hierarchy(NeighborhoodGraphMinor g) {
         }
         //then print out the vertex itself
         if (first) {
-          printf("[%lu]\n", current);
+          printf("[%lu]", current);
         }
         else {
-          printf(" -> [%zu]\n", current);
+          printf(" -> [%zu]", current);
         }
+
+        Neighbor* n = g.original.neighborhoods[i];
+        while (n) {
+          printf(" -> %lu", n->vertex);
+          n = n->next;
+        }
+
+        printf("\n");
     }
+}
+
+void print_minor_path(NeighborhoodGraphMinor g, NeighborhoodGraph p, FatNeighbor start) {
+  printf("%ld", start.vertex);
+
+  size_t i = 0;
+  PairEdge last_edge = {-1, -1};
+  while (start.neighbor && i < 20) {
+    //printf("%ld %p %ld %p\n", start.vertex, start.neighbor, start.neighbor->vertex, start.neighbor->next);
+
+    if (start.neighbor) {
+      size_t u = start.vertex;
+      size_t v = start.neighbor->vertex;
+      PairEdge e = {u, v};
+      PairEdge backwards_e = {v, u};
+      if (
+        !(backwards_e.left == last_edge.left && backwards_e.right == last_edge.right) && //make sure not retracing step O(1)
+        has_edge(p, e) && //make sure edge exists in path O(e(G))
+        root(g.hierarchy, u) != root(g.hierarchy, v) //make sure not under same supervertex O(n(G))
+      ) {
+        start = (FatNeighbor){start.neighbor->vertex, g.original.neighborhoods[start.neighbor->vertex]};
+        printf(", %ld", start.vertex);
+        last_edge = e;
+        i++;
+        continue;
+      }
+    }
+
+    start = next_neighbor(start, g);
+    //if (start.neighbor) printf("ext %ld %ld\n", start.vertex, start.neighbor->vertex);
+    i++;
+  }
+
+  printf("\n");
+  
 }
