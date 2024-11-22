@@ -23,10 +23,10 @@ struct threaddata {
   struct threadmutexdata m_data;
 };
 
-#define SAMPLES_PER_THREAD (size_t)1
+#define SAMPLES_PER_THREAD (size_t)10
 #define THREAD_COUNT 10
 
-#define RANGE {-0, 100, 1, 0.0, 1.0, 0.01};
+#define RANGE {1, 300, 3, 0.0, 0.025, 0.0005};
 
 #define OUT_DB "out.db"
 #define OUT_TABLE "samples"
@@ -56,7 +56,22 @@ void row_update_generator(size_t i, const char *table_name, char *insert_sql, vo
 
 // Function to calculate the edge count of a graph
 size_t default_property(NeighborhoodGraph g) {
-  return choose(g.order, 2);
+  size_t* paths = malloc(g.order * sizeof(size_t));
+
+  Forest f = {paths, g.order};
+  bfs(g, &f);
+
+  size_t components = 0;
+
+  for (size_t i = 0; i < g.order; i++) {
+    if (paths[i] == -1) components++;
+  }
+
+  //printf("%ld: %ld\n", g.order, components);
+
+  free(paths);
+
+  return components;
 }
 
 int sample_range_thread(void* any) {

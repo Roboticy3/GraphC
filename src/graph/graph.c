@@ -123,18 +123,18 @@ void bfs(NeighborhoodGraph g, Forest* t) {
   free(d);
 }
 
-size_t get_height(Forest t, size_t v) {
+size_t get_height(size_t* paths, size_t v) {
   size_t height = 0;
-  while (t.paths[v] != -1) {
-    v = t.paths[v];
+  while (paths[v] != -1) {
+    v = paths[v];
     height++;
   }
   return height;
 }
 
-size_t lca(Forest t, size_t a, size_t b) {
+size_t lca(size_t* paths, size_t a, size_t b) {
   //get the height of both vertices.
-  size_t height_a = get_height(t, a), height_b = get_height(t, b);
+  size_t height_a = get_height(paths, a), height_b = get_height(paths, b);
   //printf("found heights (%ld %ld)\n", height_a, height_b);
   //sort the vertices so a is at least as far from the root of the tree as b
   if (height_b > height_a) {
@@ -152,7 +152,7 @@ size_t lca(Forest t, size_t a, size_t b) {
   //trace a to the same height as b
   while (height_a > height_b && a != -1) {
     //printf("reading slot %ld out of %ld\n", a, t.order);
-    a = t.paths[a];
+    a = paths[a];
     height_a--;
     //printf("%ld %ld\n", a, b);
   }
@@ -162,9 +162,9 @@ size_t lca(Forest t, size_t a, size_t b) {
   //now trace each vertex up the tree until the ancestor is found.
   while (a != b && a != -1) {
     //printf("reading slot %ld out of %ld\n", a, t.order);
-    a = t.paths[a];
+    a = paths[a];
     //printf("reading slot %ld out of %ld\n", b, t.order);
-    b = t.paths[b];
+    b = paths[b];
     //printf("%ld %ld\n", a, b);
   }
 
@@ -173,9 +173,9 @@ size_t lca(Forest t, size_t a, size_t b) {
 
 //this thing is starting to piss me off
 // The smallest cycle containing an edge e and a root of t
-int get_cycle(Forest t, PairEdge e, array* out) {
+int get_cycle(size_t* paths, PairEdge e, array* out) {
     size_t start = e.left;
-    size_t a = lca(t, e.left, e.right);
+    size_t a = lca(paths, e.left, e.right);
 
     //printf("Cycle seeds e: (%ld %ld, %ld) lca: %ld\n",start, e.left, e.right, a);
 
@@ -197,7 +197,7 @@ int get_cycle(Forest t, PairEdge e, array* out) {
         return -1;
     }
     block[st_len++] = e.left;
-    e.left = t.paths[e.left];
+    e.left = paths[e.left];
     }
 
     // Reverse the first path in-place
@@ -223,7 +223,7 @@ int get_cycle(Forest t, PairEdge e, array* out) {
             return -1;
         }
         block[st_len++] = e.right;
-        e.right = t.paths[e.right];
+        e.right = paths[e.right];
     }
 
     // Close the cycle by appending the starting vertex
@@ -268,17 +268,45 @@ size_t root(size_t* paths, size_t from) {
   return v;
 }
 
-void contract(size_t* vertices, size_t vertices_count, NeighborhoodGraphMinor* g) {
-  if (!vertices_count) return;
+int contract(NeighborhoodGraphMinor* g, array vertices) {
+
+  size_t* v_block = (size_t*)vertices.block;
+  size_t v_len = vertices.length / sizeof(size_t);
+
+  if (!v_len) return 1;
 
   //select the supervertex of the first vertex
   //then, contract the rest of the vertices to it
-  size_t u = root(g->hierarchy, vertices[0]);
-  for (size_t i = 1; i < vertices_count; i++) {
-    size_t v = root(g->hierarchy, vertices[i]);
-    printf("contracting %ld from %ld into %ld\n", vertices[i], v, u);
+  size_t u = root(g->hierarchy, v_block[0]);
+  for (size_t i = 1; i < v_len; i++) {
+    size_t v = root(g->hierarchy, v_block[i]);
+    //printf("contracting %ld from %ld into %ld\n", v_block[i], v, u);
     g->hierarchy[v] = u;
   }
+
+  return 0;
+}
+
+int expand(NeighborhoodGraphMinor g, size_t v, array out_mask) {
+
+  if (out_mask.length < g.original.order / 8) {
+    return 1;
+  }
+
+  if (g.hierarchy[v] != -1) {
+    return 2;
+  }
+
+  for (size_t u = 0; u < g.original.order; u++) {
+    if (g.hierarchy[u] == v || u == v) {
+      printf("expanding %ld from %ld into %ld\n", u, v, g.hierarchy[v]);
+      g.hierarchy[u] = -1;
+
+      set_bit_high(out_mask.block, u); //mmmm bitmasks
+    }
+  }
+
+  return 0;
 }
 
 FatNeighbor next_neighbor(FatNeighbor n, NeighborhoodGraphMinor g) {
@@ -294,6 +322,69 @@ FatNeighbor next_neighbor(FatNeighbor n, NeighborhoodGraphMinor g) {
   }
 
   return (FatNeighbor){-1, 0};
+}
+
+size_t next_subvertex(size_t v, NeighborhoodGraphMinor g) {
+  size_t parent = g.hierarchy[v];
+
+  for (size_t u = v + 1; u < g.original.order; u++) {
+    if (g.hierarchy[u] == parent) {
+      return u;
+    }
+  }
+
+  return -1;
+}
+
+int lift(NeighborhoodGraphMinor g, size_t v, NeighborhoodGraph* h) {
+  //expand v in G, taking note of the vertices expanded
+  size_t exp_cap = g.original.order / 8 + (g.original.order % 8 > 0);
+  char* exp_block = calloc(exp_cap, 1); //bitmask of expanded vertices
+  int err = expand(g, v, (array){(char*)exp_block, exp_cap, exp_cap});
+
+  if (err) {
+    //printf("Error! code %d from expand\n", err);
+    return err;
+  }
+
+  printf("FINISHED EXPANDING GRAPH:\n");
+  print_hierarchy(g);
+
+  //add internal edges of exp_block to h
+  for (size_t u = 0; u < g.original.order; u++) {
+    if (!get_bit(exp_block, u)) {
+      continue;
+    }
+
+    printf("looking at neighborhood of %ld in G\n", u);
+
+    size_t i = 0;
+    Neighbor* n = g.original.neighborhoods[u];
+    while (i < 5) {
+      size_t w = n->vertex;
+      printf("\tlooking at edge %ld %ld from edge %p (%ld'th edge of %ld)...", u, w, n, i, u);
+      //edge to the outside of the mask may not be in h necessarily, so ignore those too
+      if (!get_bit(exp_block, w)) {
+        printf("avoiding, since it may not be in H\n");
+        i++;
+        continue;
+      }
+
+      //otherwise, the edge is safe to add to h
+      add_neighbor(h, u, w);
+      printf("added edge\n");
+      i++;
+      n = n->next;
+    }
+
+    printf("FINISHED PROCESSING %ld, GRAPH:\n", u);
+    print_hierarchy(g);
+  }
+  
+
+  free(exp_block);
+
+  return 0;
 }
 
 void print_graph(NeighborhoodGraph graph) {
@@ -386,6 +477,57 @@ void print_hierarchy(NeighborhoodGraphMinor g) {
 
         printf("\n");
     }
+}
+
+
+void print_hierarchy_to_string(NeighborhoodGraphMinor g, char* buffer, size_t buffer_size) {
+    // Start by clearing the buffer
+    buffer[0] = '\0';
+
+    // For each vertex in the original graph
+    for (size_t i = 0; i < g.original.order; ++i) {
+        size_t current = i;
+        size_t j = 0;
+        int first = 1;
+
+        // Append the hierarchy of the current vertex to the string
+        while (g.hierarchy[current] != -1 && j < 20) {
+            if (first) {
+                snprintf(buffer + strlen(buffer), buffer_size - strlen(buffer), "(%zu)", current);
+                first = 0;
+            } else {
+                snprintf(buffer + strlen(buffer), buffer_size - strlen(buffer), " -> (%zu)", current);
+            }
+            current = g.hierarchy[current];
+            j++;
+        }
+
+        // Then append the vertex itself
+        if (first) {
+            snprintf(buffer + strlen(buffer), buffer_size - strlen(buffer), "[%lu]", current);
+        } else {
+            snprintf(buffer + strlen(buffer), buffer_size - strlen(buffer), " -> [%zu]", current);
+        }
+
+        // Append the neighbors of the current vertex
+        Neighbor* n = g.original.neighborhoods[i];
+        while (n) {
+            snprintf(buffer + strlen(buffer), buffer_size - strlen(buffer), " -> %lu", n->vertex);
+            n = n->next;
+        }
+
+        // Add a newline after each vertex's output
+        snprintf(buffer + strlen(buffer), buffer_size - strlen(buffer), "\n");
+    }
+}
+
+
+void print_paths_raw(size_t* paths, size_t len) {
+  for (int i = 0; i < len; i++) {
+    printf("%ld, ", paths[i]);
+  }
+
+  printf("\n");
 }
 
 void print_minor_path(NeighborhoodGraphMinor g, NeighborhoodGraph p, FatNeighbor start) {
