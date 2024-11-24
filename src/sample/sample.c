@@ -46,7 +46,7 @@ void sample_range(binomialrangedata s, double* out, size_t (*property)(Neighborh
       random_state, 
     };
     sample_point(data, &sample, property);
-    out[i] = sample.mean / (double)s.range_count;
+    out[i] = sample.mean;
   }
 
   fnDelocXSR(random_state);

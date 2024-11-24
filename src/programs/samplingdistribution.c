@@ -24,16 +24,16 @@ struct threaddata {
 };
 
 #define SAMPLES_PER_THREAD (size_t)10
-#define THREAD_COUNT 10
+#define THREAD_COUNT 8
 
-#define RANGE {1, 300, 3, 0.0, 0.025, 0.0005};
+#define RANGE {751, 1000, 1, 0.0, 0.025, 0.001};
 
 #define OUT_DB "out.db"
-#define OUT_TABLE "samples"
-#define OUT_COLUMNS {"order", "edge_probability", "edges"}
+#define OUT_TABLE "samples_8"
+#define OUT_COLUMNS {"n", "p", "property"}
 #define INITIAL_COLUMN "sample_id"
 
-const char* columns[3] = OUT_COLUMNS;
+const char* OUT_COLS_ARRAY[3] = OUT_COLUMNS;
 
 struct row_update_generator_bind {
   struct threaddata t_data;
@@ -46,10 +46,11 @@ void row_update_generator(size_t i, const char *table_name, char *insert_sql, vo
   binomialrange r = t_data.b_data.range;
   double mean = bind.out[i];
 
-  snprintf(insert_sql, MAX_INSERT_LEN, "UPDATE samples SET %s_%x = %ld, %s_%x = %f, %s_%x = %lf WHERE sample_id = %ld;", 
-    columns[0], t_data.id, get_row(r, i),
-    columns[1], t_data.id, get_col(r, i),
-    columns[2], t_data.id, mean,
+  snprintf(insert_sql, MAX_INSERT_LEN, "UPDATE %s SET %s_%x = %ld, %s_%x = %f, %s_%x = %lf WHERE sample_id = %ld;", 
+    table_name,
+    OUT_COLS_ARRAY[0], t_data.id, get_row(r, i),
+    OUT_COLS_ARRAY[1], t_data.id, get_col(r, i),
+    OUT_COLS_ARRAY[2], t_data.id, mean,
     i
   );
 }
@@ -66,8 +67,6 @@ size_t default_property(NeighborhoodGraph g) {
   for (size_t i = 0; i < g.order; i++) {
     if (paths[i] == -1) components++;
   }
-
-  //printf("%ld: %ld\n", g.order, components);
 
   free(paths);
 
@@ -119,18 +118,6 @@ int samplingdistribution(int argc, char** argv) {
   //clear the previous readings under the same table
   char sql[MAX_QUERY_LEN];
   char* err_msg;
-  snprintf(sql, MAX_QUERY_LEN, "DROP TABLE %s;", OUT_TABLE);
-  printf("%s\n",sql);
-
-  db_err = sqlite3_exec(db, sql, 0, 0, &err_msg);
-  if (db_err != SQLITE_OK && db_err != 1) {
-    printf("Failed to clear table with error \"%s\" (error code %d)\n", err_msg, db_err);
-    sqlite3_free(err_msg);
-    sqlite3_close(db);
-    return db_err;
-  }
-
-  printf("Cleared previous table %s!\n", OUT_TABLE);
 
   snprintf(sql, MAX_QUERY_LEN, "CREATE TABLE %s (%s INTEGER, PRIMARY KEY (%s));", OUT_TABLE, INITIAL_COLUMN, INITIAL_COLUMN);
   printf("%s\n",sql);
@@ -147,10 +134,14 @@ int samplingdistribution(int argc, char** argv) {
   //initialize the stdlib random state to generate random seeds for the xoshiro generators in each thread
   srand(time(NULL));
 
+  printf("Initialized rand, testing... %d\n", rand());
+
   //initialize the threads
   thrd_t threads[THREAD_COUNT];
   mtx_t mutex;
   mtx_init(&mutex, mtx_plain);
+
+  printf("Initialized mutex %p\n", &mutex);
 
   //the range this distribution will cover
   binomialrange r = RANGE;
@@ -158,6 +149,8 @@ int samplingdistribution(int argc, char** argv) {
   size_t height = R_HEIGHT(r);
 
   insert_rows_batch(db, OUT_TABLE, INITIAL_COLUMN, stride * height);
+
+  printf("Added %ld rows!", stride * height);
 
   //for each thread, get SAMPLES_PER_THREAD samples at each point in RANGE
   for (int t = 0; t < THREAD_COUNT; t++) {
