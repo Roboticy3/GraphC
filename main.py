@@ -13,7 +13,7 @@ prop_avg = np.empty((0,), dtype=float)
 conn = sqlite3.connect("out.db")
 cursor = conn.cursor()
 
-TABLES = ["samples_1", "samples_2", "samples_3", "samples_4", "samples_5", "samples_6", "samples_7", "samples_8"]
+TABLES = ["samples_1", "samples_2", "samples_3", "samples_4", "samples_5", "samples_6", "samples_7", "samples_8", "samples_9"]
 
 for t in TABLES:
   # Fetch all columns in the table
@@ -64,6 +64,7 @@ ax = fig.add_subplot(111, projection='3d')
 
 sc = ax.scatter(order_avg, edge_prob_avg, prop_avg, s=5, c=prop_avg, cmap=custom_cmap, norm=norm, marker='s')
 
+
 # Set labels
 ax.set_xlabel("Order")
 ax.set_ylabel("Edge Probability")
@@ -75,7 +76,7 @@ ax.view_init(elev=30, azim=45)
 # Show the plot
 #plt.show()
 
-plt.savefig("numcomponents-angle.png", format="png", dpi=300)
+#plt.savefig("numcomponents-angle.png", format="png", dpi=300)
 
 ax.view_init(elev=0, azim=0)
 
@@ -89,7 +90,7 @@ ax.view_init(elev=90, azim=180)
 
 #plt.savefig("numcomponents-np.png", format="png", dpi=300)
 
-"""
+
 
 from scipy import optimize
 
@@ -121,7 +122,9 @@ def loss(params, x, y, z):
                 
     return error
 
-result = optimize.minimize(loss, [1, 1, 1, 1], args=(order_avg, edge_prob_avg, prop_avg))
+INITIAL_VALUES = [1, 1, 1, 1]
+
+result = optimize.minimize(loss, INITIAL_VALUES, args=(order_avg, edge_prob_avg, prop_avg))
 
 params_old = (1.1990281330209416, 1.1990281330209562, 0.22948226346548167, 1.8078591471289007)
 a_old, b_old, c_old, d_old = params_old
@@ -133,6 +136,8 @@ print(f"Error: {result.fun}")
 
 print(f"Old error: {loss(params_old, order_avg, edge_prob_avg, prop_avg)}")
 
+#print(a_opt - a_old, b_opt - b_old, c_opt - c_old, d_opt - d_old)
+
 x_curve = np.linspace(np.min(order_avg), np.max(order_avg), 100)
 y_curve = model(x_curve, a_opt, b_opt, c_opt, d_opt)
 y_old = model(x_curve, a_old, b_old, c_old, d_old)
@@ -140,9 +145,7 @@ y_old = model(x_curve, a_old, b_old, c_old, d_old)
 
 
 # Plot the fitted curve
-ax.plot(x_curve, y_curve, np.ones_like(x_curve), color='green', label='Fitted curve')
+#ax.plot(x_curve, y_curve, np.ones_like(x_curve), color='green', label='Fitted curve')
 ax.plot(x_curve, y_old, np.ones_like(x_curve), color='red', label='Old Fitted curve')
 
 plt.savefig("numcomponents-r.png")
-
-"""

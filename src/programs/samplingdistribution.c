@@ -26,10 +26,10 @@ struct threaddata {
 #define SAMPLES_PER_THREAD (size_t)10
 #define THREAD_COUNT 8
 
-#define RANGE {751, 1000, 1, 0.0, 0.025, 0.001};
+#define RANGE {101, 250, 1, 0.05, 0.1, 0.001};
 
 #define OUT_DB "out.db"
-#define OUT_TABLE "samples_8"
+#define OUT_TABLE "samples_9"
 #define OUT_COLUMNS {"n", "p", "property"}
 #define INITIAL_COLUMN "sample_id"
 
