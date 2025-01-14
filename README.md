@@ -2,7 +2,7 @@
 
 The code powering my final project for Graph Theory at school. It primarily computes a value on a large sample of random graphs, using sampling distributions and ranges.
 
-There are 5 super-lightweight libraries at play here for others to use:
+There are 5 super-lightweight libraries at play here:
  - graph, with the `NeighborhoodGraph` type for directed graphs and the `ShortestPathGraph` type for representing shortest paths.
  - choose, with the `choose_i` function for enumerating $k$-tuples on $[n]$ and `choose` for computing ${n \choose k}$.
  - sample, with functions for generically sampling ranges of random graphs.
