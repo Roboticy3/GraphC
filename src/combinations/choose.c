@@ -3,22 +3,26 @@
 
 #include <combinations/choose.h>
 
-/**
- * Mapping from i to k-tuples of [n]. Dumps output into out. Assumes i < (n choose k) and n > k.
- * 
- * Increments through the permutations of n choose k such that the 0'th position is always increasing. O(i)
- * 
- * (5, 3, 0) -> (1, 2, 3)
- * (5, 3, 1) -> (1, 2, 4)
- * (5, 3, 2) -> (1, 2, 5)
- * (5, 3, 3) -> (1, 3, 4)
- * (5, 3, 4) -> (1, 3, 5)
- * (5, 3, 5) -> (1, 4, 5)
- * (5, 3, 6) -> (2, 3, 4)
- * (5, 3, 7) -> (2, 3, 5)
- * (5, 3, 8) -> (2, 4, 5)
- * (5, 3, 9) -> (3, 4, 5)
- */
+// I actually didn't know choose_i was an established algorithm. I came up with
+// it at 1 in the morning at Sadler center while trying to get over a bad grade
+// That being said, there's probably faster implementations of it one could get
+// from reading Art of Computer Programming more carefully
+
+
+// Mapping from i to k-tuples of [n]. Dumps output into out. Assumes i < (n choose k) and n > k.
+// 
+// Increments through the permutations of n choose k such that the 0'th position is always increasing. O(i)
+// 
+// (5, 3, 0) -> (1, 2, 3)
+// (5, 3, 1) -> (1, 2, 4)
+// (5, 3, 2) -> (1, 2, 5)
+// (5, 3, 3) -> (1, 3, 4)
+// (5, 3, 4) -> (1, 3, 5)
+// (5, 3, 5) -> (1, 4, 5)
+// (5, 3, 6) -> (2, 3, 4)
+// (5, 3, 7) -> (2, 3, 5)
+// (5, 3, 8) -> (2, 4, 5)
+// (5, 3, 9) -> (3, 4, 5)
 void choose_i(size_t n, size_t k, size_t i, size_t* out) {
 
   //fill "out" to then modify

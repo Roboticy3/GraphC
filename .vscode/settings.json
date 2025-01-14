@@ -16,6 +16,8 @@
     "sample.h": "c",
     "sqlite3.h": "c",
     "batcher.h": "c",
-    "*.tcc": "c"
+    "*.tcc": "c",
+    "__string": "cpp",
+    "xoshiro.h": "c"
   }
 }

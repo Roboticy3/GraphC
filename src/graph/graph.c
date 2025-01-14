@@ -12,11 +12,11 @@
 #include <collections/array.h>
 #include <sample/sample.h>
 
-void add_neighbor(NeighborhoodGraph* g, size_t vertex, size_t neighbor) {
-  Neighbor* start = g->neighborhoods[vertex];
-  Neighbor new_neighbor = {neighbor, start};
+void add_neighbor(NeighborhoodGraph* g, size_t u, size_t v) {
+  Neighbor* start = g->neighborhoods[u];
+  Neighbor new_neighbor = {v, start};
   g->neighbors[g->edges] = new_neighbor;
-  g->neighborhoods[vertex] = g->neighbors + g->edges;
+  g->neighborhoods[u] = g->neighbors + g->edges;
   g->edges++;
 }
 
@@ -422,26 +422,6 @@ void print_forest(Forest t) {
   }
 }
 
-void binomial_graph_random_sample(sampledata params, sample* sample,size_t (*property)(NeighborhoodGraph)) {
-
-  Neighbor** neighborhoods = malloc(params.order * sizeof(Neighbor*));
-  Neighbor* neighbors = malloc(params.order * (params.order - 1) * sizeof(Neighbor));
-
-  for (int i = 0; i < sample->len; i++) { 
-
-    for (int j = 0; j < params.order; j++) {
-      neighborhoods[j] = 0;
-    }
-
-    NeighborhoodGraph g = {neighborhoods, params.order, neighbors, 0};
-    fill_graph_binomial(&g, params.p, params.random_state);
-    sample->x[i] = (*property)(g);
-  }
-
-  free(neighborhoods);
-  free(neighbors);
-}
-
 //you can tell when I'm desparate enough to use AI because GPT uses 4-spaces to indent and I use 2.
 //took some edits, but definitely sped things up
 void print_hierarchy(NeighborhoodGraphMinor g) {
@@ -528,39 +508,4 @@ void print_paths_raw(size_t* paths, size_t len) {
   }
 
   printf("\n");
-}
-
-void print_minor_path(NeighborhoodGraphMinor g, NeighborhoodGraph p, FatNeighbor start) {
-  printf("%ld", start.vertex);
-
-  size_t i = 0;
-  PairEdge last_edge = {-1, -1};
-  while (start.neighbor && i < 20) {
-    //printf("%ld %p %ld %p\n", start.vertex, start.neighbor, start.neighbor->vertex, start.neighbor->next);
-
-    if (start.neighbor) {
-      size_t u = start.vertex;
-      size_t v = start.neighbor->vertex;
-      PairEdge e = {u, v};
-      PairEdge backwards_e = {v, u};
-      if (
-        !(backwards_e.left == last_edge.left && backwards_e.right == last_edge.right) && //make sure not retracing step O(1)
-        has_edge(p, e) && //make sure edge exists in path O(e(G))
-        root(g.hierarchy, u) != root(g.hierarchy, v) //make sure not under same supervertex O(n(G))
-      ) {
-        start = (FatNeighbor){start.neighbor->vertex, g.original.neighborhoods[start.neighbor->vertex]};
-        printf(", %ld", start.vertex);
-        last_edge = e;
-        i++;
-        continue;
-      }
-    }
-
-    start = next_neighbor(start, g);
-    //if (start.neighbor) printf("ext %ld %ld\n", start.vertex, start.neighbor->vertex);
-    i++;
-  }
-
-  printf("\n");
-  
 }

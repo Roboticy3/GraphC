@@ -6,7 +6,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-//thanks ChatGPT!
+// writing tests is not fun
+// so I made ChatGPT write the tests
+// this worked remarkably well... with a little adjusting
 
 // Helper function to initialize the queue
 void queue_init(queue* q, size_t capacity) {

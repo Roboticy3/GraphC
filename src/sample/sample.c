@@ -8,14 +8,27 @@
 // Thread function to perform partial sampling
 void sample_point(sampledata params, sample* out, size_t (*property)(NeighborhoodGraph g)) {
 
-    binomial_graph_random_sample(params, out, property);
+  Neighbor** neighborhoods = malloc(params.order * sizeof(Neighbor*));
+  Neighbor* neighbors = malloc(params.order * (params.order - 1) * sizeof(Neighbor));
 
-    double mean = 0.0;
-    for (int i = 0; i < out->len; i++) {
-      //printf("\t\tout (n:%ld, p:%f): %ld\n", t_data->order, t_data->p, out[i]);
-      mean += (double)(out->x)[i] / (double)(out->len);
+  double mean = 0.0;
+
+  for (int i = 0; i < out->len; i++) { 
+
+    for (int j = 0; j < params.order; j++) {
+      neighborhoods[j] = 0;
     }
-    out->mean = mean;
+
+    NeighborhoodGraph g = {neighborhoods, params.order, neighbors, 0};
+    fill_graph_binomial(&g, params.p, params.random_state);
+    out->x[i] = (*property)(g);
+    mean += (double)(out->x)[i] / (double)(out->len);
+  }
+
+  out->mean = mean;
+
+  free(neighborhoods);
+  free(neighbors);
 }
 
 void sample_range(binomialrangedata s, double* out, size_t (*property)(NeighborhoodGraph g)) {

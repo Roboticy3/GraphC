@@ -77,9 +77,7 @@ int randomgraph() {
     printf("graph:\n");
     print_graph(g);
     printf("found odd cycle! : ");
-    for (size_t i = 0; i < cycle_buffer.length / sizeof(size_t); i++) {
-      printf("%ld, ", cycle_buffer_block[i]);
-    }
+    print_array(cycle_buffer, sizeof(size_t));
     printf("\n");
 
     printf("contracting cycle...\n");
