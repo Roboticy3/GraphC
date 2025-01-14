@@ -58,4 +58,4 @@ Common issues:
  - Setting up the CMake and Makefiles are always finicky. CMake errors are the worst. Just open an issue with the error printout if you weren't able to figure it out.
 
 # Performance
-On a Ryzen 7 5800HS with 12 threads, I was able to compute the range {101, 1000, 1, 0, 0.0025, 0.0005} with 10 samples per thread on 12 threads in about 10 minutes. Thats 540,000 large-ish random graphs sampled.
+On a Ryzen 7 5800HS with 12 threads using WSL, I was able to compute the range {101, 1000, 1, 0, 0.0025, 0.0005} with 10 samples per thread on 12 threads in about 10 minutes. Thats 540,000 large-ish random graphs sampled. Thanks to my own mishandling of the data, this run was made multiple times with similar performance.
